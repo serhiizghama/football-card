@@ -20,11 +20,12 @@ const player: Player = {
     rating: 8.5,
 };
 
+
 export default function PlayerCard() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-6 w-full">
             <motion.div
-                className="w-full max-w-md flex flex-col items-center space-y-4"
+                className="w-full max-w-md flex flex-col items-center space-y-4 bg-gray-900"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
@@ -56,3 +57,4 @@ export default function PlayerCard() {
         </div>
     );
 }
+
