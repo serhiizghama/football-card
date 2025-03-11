@@ -1,18 +1,14 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './App.css'
-
-import PlayerCard from "./PlayerCard";
-
-
-function App() {
-  // const [count, setCount] = useState(0)
-
-  return (<div className="min-h-screen flex items-center justify-center bg-gray-800 p-4">
-    <PlayerCard />
-  </div>
-  )
+import './App.css';
+export function App() {
+  return (
+    <div className="min-h-screen flex flex-col justify-end bg-gray-900 text-white p-6">
+      <div className="fixed bottom-0 left-0 w-full bg-gray-800 p-4 flex justify-around">
+        <button className="text-white text-lg">Главная</button>
+        <button className="text-white text-lg">Матчи</button>
+        <button className="text-white text-lg">Игроки</button>
+        <button className="text-white text-lg">Настройки</button>
+      </div>
+    </div>
+  );
 }
-
 export default App
