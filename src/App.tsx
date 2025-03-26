@@ -1,26 +1,35 @@
-import './App.css';
+import { useEffect, useState } from 'react';
 
-export default function App() {
+declare global {
+  interface Window {
+    Telegram: any;
+  }
+}
+
+function App() {
+  const [user, setUser] = useState<{ id: number; first_name: string } | null>(null);
+
+  useEffect(() => {
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    const userData = tg.initDataUnsafe?.user;
+    if (userData) {
+      setUser({
+        id: userData.id,
+        first_name: userData.first_name,
+      });
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col justify-end bg-gray-900 text-white p-6">
-      <div className="fixed bottom-0 left-0 w-full bg-gray-800 p-4 flex justify-around items-center sm:justify-center sm:gap-6">
-        <button className="text-white text-sm sm:text-lg flex flex-col items-center">
-          <span>🏠</span>
-          <span>Главная</span>
-        </button>
-        <button className="text-white text-sm sm:text-lg flex flex-col items-center">
-          <span>⚽</span>
-          <span>Матчи</span>
-        </button>
-        <button className="text-white text-sm sm:text-lg flex flex-col items-center">
-          <span>👤</span>
-          <span>Игроки</span>
-        </button>
-        <button className="text-white text-sm sm:text-lg flex flex-col items-center">
-          <span>⚙️</span>
-          <span>Настройки</span>
-        </button>
-      </div>
+    <div className="bg-neutral-900 text-white p-6 rounded-2xl shadow-lg max-w-md w-full text-center">
+      <h1 className="text-2xl font-bold mb-4">
+        Привет, {user?.first_name || 'гость'}!
+      </h1>
+      <p className="text-lg">Твой Telegram ID: {user?.id || 'неизвестен'}</p>
     </div>
   );
 }
+
+export default App;
