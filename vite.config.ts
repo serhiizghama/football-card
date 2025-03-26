@@ -15,5 +15,8 @@ export default defineConfig({
       ],
     }),
   ],
+  server: {
+    host: true, // позволяет слушать внешние подключения
+    allowedHosts: ['.ngrok-free.app'], // разрешаем все ngrok-домены
+  },
 })
-
