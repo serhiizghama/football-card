@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/WelcomePage.css';
+import '../styles/global.css';
 
 const WelcomePage = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const duration = 1000; // 5 seconds
+    const duration = 5000; // 5 seconds
     const interval = 50; // Update every 50ms
     const steps = duration / interval;
     const increment = 100 / steps;
@@ -26,21 +26,18 @@ const WelcomePage = ({ onLoadingComplete }) => {
   }, [onLoadingComplete]);
 
   return (
-    <div className="welcome-container">
-      <div className="welcome-content">
-        <div className="football-logo">
-          <div className="football">
-            <div className="football-pattern"></div>
+    <div className="container">
+      <div className="card">
+        <div className="card-header">Football Cards</div>
+        <div className="card-content">
+          <div className="loading-bar-container">
+            <div 
+              className="loading-bar" 
+              style={{ width: `${progress}%` }}
+            ></div>
           </div>
+          <p className="loading-text">Loading amazing football content...</p>
         </div>
-        <h1 className="welcome-title">Football Cards</h1>
-        <div className="loading-bar-container">
-          <div 
-            className="loading-bar" 
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
-        <p className="loading-text">Loading amazing football content...</p>
       </div>
     </div>
   );
