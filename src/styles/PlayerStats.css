@@ -1,10 +1,56 @@
 .player-stats {
-  padding: 20px;
-  color: white;
-  background: linear-gradient(to bottom, #1a472a, #0d2315);
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
+  padding: 1rem;
+  color: #ffffff;
+}
+
+.user-info {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.user-info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-details p {
+  margin: 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #121212;
+  color: #ffffff;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .user-info {
+    padding: 1rem;
+  }
+
+  .user-info h2 {
+    font-size: 1.2rem;
+  }
+
+  .user-details p {
+    font-size: 0.9rem;
+  }
 }
 
 .player-stats::before {
