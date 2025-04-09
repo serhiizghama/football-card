@@ -1,0 +1,110 @@
+.welcome-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #121212 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.welcome-content {
+  text-align: center;
+  padding: 2rem;
+}
+
+.football-logo {
+  margin-bottom: 2rem;
+}
+
+.football {
+  width: 120px;
+  height: 120px;
+  background: #ffffff;
+  border-radius: 50%;
+  position: relative;
+  margin: 0 auto;
+  animation: bounce 2s infinite;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.football-pattern {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(45deg, transparent 40%, #000 40%, #000 60%, transparent 60%),
+    linear-gradient(-45deg, transparent 40%, #000 40%, #000 60%, transparent 60%);
+  border-radius: 50%;
+  animation: rotate 3s linear infinite;
+}
+
+.welcome-title {
+  color: #ffffff;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.loading-bar-container {
+  width: 300px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 3px;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.loading-text {
+  color: #ffffff;
+  margin-top: 1rem;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .football {
+    width: 80px;
+    height: 80px;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  .loading-bar-container {
+    width: 250px;
+  }
+} 
