@@ -69,11 +69,26 @@ body {
 }
 
 .personal-achievements, .team-achievements {
-    margin-top: 1rem;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .personal-achievements h3, .team-achievements h3 {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
     color: #ffffff;
+}
+
+.personal-achievements ul, .team-achievements ul {
+    list-style: none;
+    padding: 0;
+}
+
+.personal-achievements li, .team-achievements li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #b0b0b0;
 }
