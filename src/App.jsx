@@ -3,6 +3,7 @@ import MobileLayout from './components/MobileLayout';
 import PlayerStats from './components/PlayerStats';
 import WelcomePage from './components/WelcomePage';
 import useTelegram from './hooks/useTelegram';
+import PlayerProfile from './components/PlayerProfile';
 import './App.css';
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
 
   return (
     <MobileLayout>
-      <PlayerStats user={user} />
+      {/* <PlayerStats user={user} /> */}
+      <PlayerProfile />
     </MobileLayout>
   );
 }
