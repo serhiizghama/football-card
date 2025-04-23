@@ -1,38 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/PlayerProfile.css';
 
-const user = {
-    username: 'John Doe',
-    skill: 6.2,
-    seasons: [
-        {
-            season: 'Winter 2025',
-            games: 20,
-            wins: 15,
-            losses: 5,
-            points: 45,
-            efficiency: 7.8,
-            achievements: [],
-        },
-        {
-            season: 'Summer 2025',
-            games: 20,
-            wins: 15,
-            losses: 5,
-            points: 45,
-            efficiency: 7.8,
-            achievements: [
-                { name: 'MVP', type: 'team', count: 5 },
-                { name: 'Win Streak', type: 'team', count: 7 },
-                { name: 'Hard to Beat', type: 'team', count: 4 },
-                { name: 'N', type: 'personal', count: 3 },
-            ],
-        },
-    ],
-};
-
 const PlayerProfile = () => {
-    const [selectedSeason, setSelectedSeason] = useState(user.seasons[0]);
+    const [user, setUser] = useState(null);
+    const [selectedSeason, setSelectedSeason] = useState(null);
+
+    useEffect(() => {
+        // Выполняем запрос к серверу
+        fetch('http://188.212.125.80:3003/api/user/123/group/123')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Ошибка загрузки данных');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                setUser(data);
+                setSelectedSeason(data.seasons[0]); // Устанавливаем первый сезон по умолчанию
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+    }, []);
+
+    if (!user || !selectedSeason) {
+        return <div>Загрузка...</div>; // Показываем индикатор загрузки, пока данные не загружены
+    }
 
     return (
         <div className="profile-container">
