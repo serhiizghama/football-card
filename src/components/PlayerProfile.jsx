@@ -7,7 +7,7 @@ const PlayerProfile = () => {
 
     useEffect(() => {
         // Выполняем запрос к серверу
-        fetch('http://188.212.125.80:3003/api/user/123/group/123')
+        fetch('https://api.ballrush.online/user/123/group/123')
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Ошибка загрузки данных');
