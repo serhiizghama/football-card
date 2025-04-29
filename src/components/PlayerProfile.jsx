@@ -23,7 +23,8 @@ const PlayerProfile = () => {
     const [selectedSeason, setSelectedSeason] = useState(null);
 
     // Здесь можно получать из пропсов или useParams
-    const userId = 277364372;
+    // const userId = 277364372;
+    const userId = 5197715916;
     const groupId = -1001891077621;
 
     useEffect(() => {
