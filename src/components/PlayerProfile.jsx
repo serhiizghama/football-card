@@ -89,45 +89,40 @@ const PlayerProfile = () => {
             <div className="achievements">
                 <h2>Достижения</h2>
 
-                <section className="ach-section">
-                    <h3>Личные</h3>
-                    {personal.length === 0 ? (
-                        <p className="no-ach">Нет личных достижений</p>
-                    ) : (
+                {/* Личные достижения — показываем только если есть */}
+                {personal.length > 0 && (
+                    <section className="ach-section">
+                        <h3>Личные</h3>
                         <ul className="ach-list">
                             {personal.map(a => (
                                 <li key={a.title}>
                                     <span className="ach-emoji">{a.emoji}</span>
                                     <span className="ach-title">{a.title}</span>
-                                    {a.count > 1 && (
-                                        <span className="ach-count">×{a.count}</span>
-                                    )}
+                                    {/* Всегда показываем count, даже если 1 */}
+                                    <span className="ach-count">×{a.count}</span>
                                     <div className="ach-desc">{a.description}</div>
                                 </li>
                             ))}
                         </ul>
-                    )}
-                </section>
+                    </section>
+                )}
 
-                <section className="ach-section">
-                    <h3>Командные</h3>
-                    {team.length === 0 ? (
-                        <p className="no-ach">Нет командных достижений</p>
-                    ) : (
+                {/* Командные достижения */}
+                {team.length > 0 && (
+                    <section className="ach-section">
+                        <h3>Командные</h3>
                         <ul className="ach-list">
                             {team.map(a => (
                                 <li key={a.title}>
                                     <span className="ach-emoji">{a.emoji}</span>
                                     <span className="ach-title">{a.title}</span>
-                                    {a.count > 1 && (
-                                        <span className="ach-count">×{a.count}</span>
-                                    )}
+                                    <span className="ach-count">×{a.count}</span>
                                     <div className="ach-desc">{a.description}</div>
                                 </li>
                             ))}
                         </ul>
-                    )}
-                </section>
+                    </section>
+                )}
             </div>
         </div>
     );
