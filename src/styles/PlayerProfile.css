@@ -57,7 +57,7 @@ body {
 
 .season-stats h2 {
     margin-top: 0;
-    color: #fff;
+    color: #ffffff;
 }
 
 .season-stats ul {
@@ -78,6 +78,7 @@ body {
 
 .achievements h2 {
     margin-bottom: 0.75rem;
+    color: #ffffff;
 }
 
 .ach-section {
@@ -91,7 +92,7 @@ body {
 .ach-section h3 {
     margin-top: 0;
     margin-bottom: 0.5rem;
-    color: #fff;
+    color: #ffffff;
     font-size: 1.2rem;
 }
 
@@ -109,19 +110,22 @@ body {
 
 .ach-emoji {
     margin-right: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     line-height: 1;
+    flex-shrink: 0;
 }
 
 .ach-desc {
     margin-left: 1.8rem;
     color: #aaa;
     font-size: 0.9rem;
+    line-height: 1.3;
 }
 
 em {
     margin-left: 0.5rem;
     color: #6cf;
+    font-style: normal;
 }
 
 .no-ach {

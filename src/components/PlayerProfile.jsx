@@ -22,6 +22,7 @@ const PlayerProfile = () => {
     const [user, setUser] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
 
+    // TODO: получить userId и groupId динамически (props, router, context…)
     const userId = 277364372;
     const groupId = -1001891077621;
 
