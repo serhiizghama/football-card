@@ -22,7 +22,7 @@ const PlayerProfile = () => {
     const [user, setUser] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
 
-    // TODO: получить userId и groupId динамически (props, router, context…)
+    // Здесь можно получать из пропсов или useParams
     const userId = 277364372;
     const groupId = -1001891077621;
 
@@ -94,12 +94,14 @@ const PlayerProfile = () => {
                     {personal.length === 0 ? (
                         <p className="no-ach">Нет личных достижений</p>
                     ) : (
-                        <ul>
+                        <ul className="ach-list">
                             {personal.map(a => (
                                 <li key={a.title}>
                                     <span className="ach-emoji">{a.emoji}</span>
-                                    <strong>{a.title}</strong>
-                                    {a.count > 1 && <em>×{a.count}</em>}
+                                    <span className="ach-title">{a.title}</span>
+                                    {a.count > 1 && (
+                                        <span className="ach-count">×{a.count}</span>
+                                    )}
                                     <div className="ach-desc">{a.description}</div>
                                 </li>
                             ))}
@@ -112,12 +114,14 @@ const PlayerProfile = () => {
                     {team.length === 0 ? (
                         <p className="no-ach">Нет командных достижений</p>
                     ) : (
-                        <ul>
+                        <ul className="ach-list">
                             {team.map(a => (
                                 <li key={a.title}>
                                     <span className="ach-emoji">{a.emoji}</span>
-                                    <strong>{a.title}</strong>
-                                    {a.count > 1 && <em>×{a.count}</em>}
+                                    <span className="ach-title">{a.title}</span>
+                                    {a.count > 1 && (
+                                        <span className="ach-count">×{a.count}</span>
+                                    )}
                                     <div className="ach-desc">{a.description}</div>
                                 </li>
                             ))}

@@ -96,40 +96,53 @@ body {
     font-size: 1.2rem;
 }
 
-.ach-section ul {
+.ach-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.ach-section li {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 0.75rem;
+.ach-list li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+        "emoji title count"
+        "emoji desc  desc";
+    column-gap: 0.5rem;
+    row-gap: 0.25rem;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .ach-emoji {
-    margin-right: 0.5rem;
+    grid-area: emoji;
     font-size: 1.4rem;
     line-height: 1;
-    flex-shrink: 0;
+}
+
+.ach-title {
+    grid-area: title;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ach-count {
+    grid-area: count;
+    color: #6cf;
+    font-weight: bold;
 }
 
 .ach-desc {
-    margin-left: 1.8rem;
+    grid-area: desc;
     color: #aaa;
     font-size: 0.9rem;
     line-height: 1.3;
+    margin-left: 0.25rem;
 }
 
 em {
-    margin-left: 0.5rem;
-    color: #6cf;
     font-style: normal;
-}
-
-.no-ach {
-    color: #777;
-    font-style: italic;
-    padding: 0.5rem 0;
 }
