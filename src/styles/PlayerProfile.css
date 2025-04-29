@@ -1,9 +1,14 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     background-color: #121212;
     color: #e0e0e0;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
 }
 
 .profile-container {
@@ -14,28 +19,27 @@ body {
 
 .profile-header {
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .profile-header h1 {
-    font-size: 2rem;
     margin: 0;
-    color: #ffffff;
+    font-size: 2rem;
 }
 
 .profile-header p {
-    font-size: 1rem;
+    margin: 0.25rem 0 0;
     color: #b0b0b0;
 }
 
 .season-selector {
-    margin-bottom: 1rem;
     text-align: center;
+    margin-bottom: 1rem;
 }
 
 .season-selector select {
     padding: 0.5rem;
-    background-color: #2c2c2c;
+    background: #2c2c2c;
     color: #e0e0e0;
     border: none;
     border-radius: 5px;
@@ -43,52 +47,85 @@ body {
     max-width: 300px;
 }
 
-.season-stats, .achievements {
-    background-color: #1e1e1e;
+.season-stats {
+    background: #1e1e1e;
     border-radius: 10px;
     padding: 1rem;
     margin-bottom: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.season-stats h2, .achievements h2 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #ffffff;
+.season-stats h2 {
+    margin-top: 0;
+    color: #fff;
 }
 
-.season-stats ul, .team-achievements ul {
+.season-stats ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.season-stats li, .team-achievements li {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
+.season-stats li {
+    margin: 0.5rem 0;
     color: #b0b0b0;
 }
 
-.personal-achievements, .team-achievements {
-    background-color: #1e1e1e;
+/* Achievements */
+.achievements {
+    margin-top: 1rem;
+}
+
+.achievements h2 {
+    margin-bottom: 0.75rem;
+}
+
+.ach-section {
+    background: #1e1e1e;
     border-radius: 10px;
     padding: 1rem;
     margin-bottom: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.personal-achievements h3, .team-achievements h3 {
+.ach-section h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #fff;
     font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: #ffffff;
 }
 
-.personal-achievements ul, .team-achievements ul {
+.ach-section ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.personal-achievements li, .team-achievements li {
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    color: #b0b0b0;
+.ach-section li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.ach-emoji {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.ach-desc {
+    margin-left: 1.8rem;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+em {
+    margin-left: 0.5rem;
+    color: #6cf;
+}
+
+.no-ach {
+    color: #777;
+    font-style: italic;
+    padding: 0.5rem 0;
 }

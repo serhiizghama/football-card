@@ -2,68 +2,52 @@ import React, { useState, useEffect } from 'react';
 import '../styles/PlayerProfile.css';
 
 /**
- * @typedef {Object} Achievement
- * @property {string} emoji
- * @property {string} title
- * @property {'team' | 'personal'} type
- * @property {string} description
+ * Группируем повторяющиеся ачивки и считаем их количество
+ * @param {Array} achs
+ * @returns {Array<{emoji: string, title: string, type: string, description: string, count: number}>}
  */
-
-/**
- * @typedef {Object} SeasonProfile
- * @property {string} season
- * @property {number} games
- * @property {number} wins
- * @property {number} losses
- * @property {number} draws
- * @property {number} points
- * @property {number} efficiency
- * @property {number} skill
- * @property {Achievement[]} achievements
- */
-
-/**
- * @typedef {Object} UserProfile
- * @property {number} userId
- * @property {string} username
- * @property {number} groupId
- * @property {string} groupName
- * @property {SeasonProfile[]} seasons
- */
+function groupAchievements(achs) {
+    const map = {};
+    achs.forEach(a => {
+        const key = a.title;
+        if (!map[key]) {
+            map[key] = { ...a, count: 0 };
+        }
+        map[key].count++;
+    });
+    return Object.values(map);
+}
 
 const PlayerProfile = () => {
     const [user, setUser] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
 
-    // Здесь можно подтягивать параметры через props или useParams из react-router
     const userId = 277364372;
     const groupId = -1001891077621;
 
     useEffect(() => {
         fetch(`https://api.ballrush.online/user/${userId}/group/${groupId}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Ошибка загрузки данных');
-                }
-                return response.json();
+            .then(res => {
+                if (!res.ok) throw new Error('Ошибка загрузки данных');
+                return res.json();
             })
-            .then((data) => {
+            .then(data => {
                 setUser(data);
-                if (data.seasons.length > 0) {
-                    setSelectedSeason(data.seasons[0]);
-                }
+                if (data.seasons.length) setSelectedSeason(data.seasons[0]);
             })
-            .catch((error) => {
-                console.error('Ошибка:', error);
-            });
+            .catch(err => console.error('Ошибка:', err));
     }, [userId, groupId]);
 
-    if (!user) {
-        return <div>Загрузка профиля…</div>;
-    }
-    if (!selectedSeason) {
-        return <div>У пользователя нет сезонов</div>;
-    }
+    if (!user) return <div className="loading">Загрузка профиля…</div>;
+    if (!selectedSeason) return <div className="loading">У пользователя нет сезонов</div>;
+
+    // Сгруппированные ачивки
+    const personal = groupAchievements(
+        selectedSeason.achievements.filter(a => a.type === 'personal')
+    );
+    const team = groupAchievements(
+        selectedSeason.achievements.filter(a => a.type === 'team')
+    );
 
     return (
         <div className="profile-container">
@@ -75,14 +59,14 @@ const PlayerProfile = () => {
             <div className="season-selector">
                 <select
                     value={selectedSeason.season}
-                    onChange={(e) => {
-                        const s = user.seasons.find(sea => sea.season === e.target.value);
+                    onChange={e => {
+                        const s = user.seasons.find(x => x.season === e.target.value);
                         if (s) setSelectedSeason(s);
                     }}
                 >
-                    {user.seasons.map((season) => (
-                        <option key={season.season} value={season.season}>
-                            {season.season}
+                    {user.seasons.map(s => (
+                        <option key={s.season} value={s.season}>
+                            {s.season}
                         </option>
                     ))}
                 </select>
@@ -91,12 +75,12 @@ const PlayerProfile = () => {
             <div className="season-stats">
                 <h2>Статистика сезона: {selectedSeason.season}</h2>
                 <ul>
-                    <li>Количество игр: {selectedSeason.games}</li>
-                    <li>Выигранных игр: {selectedSeason.wins}</li>
-                    <li>Проигранных игр: {selectedSeason.losses}</li>
-                    <li>Ничьих: {selectedSeason.draws}</li>
-                    <li>Очков: {selectedSeason.points}</li>
-                    <li>EFF (эффективность): {selectedSeason.efficiency}</li>
+                    <li>Игры: {selectedSeason.games}</li>
+                    <li>Победы: {selectedSeason.wins}</li>
+                    <li>Поражения: {selectedSeason.losses}</li>
+                    <li>Ничьи: {selectedSeason.draws}</li>
+                    <li>Очки: {selectedSeason.points}</li>
+                    <li>EFF: {selectedSeason.efficiency}</li>
                     <li>Skill: {selectedSeason.skill}</li>
                 </ul>
             </div>
@@ -104,37 +88,41 @@ const PlayerProfile = () => {
             <div className="achievements">
                 <h2>Достижения</h2>
 
-                <div className="personal-achievements">
-                    <h3>Личные достижения</h3>
-                    {selectedSeason.achievements.filter(a => a.type === 'personal').length === 0
-                        ? <p>Нет личных достижений</p>
-                        : <ul>
-                            {selectedSeason.achievements
-                                .filter(a => a.type === 'personal')
-                                .map((ach, idx) => (
-                                    <li key={idx}>
-                                        {ach.emoji} <strong>{ach.title}</strong> — {ach.description}
-                                    </li>
-                                ))}
+                <section className="ach-section">
+                    <h3>Личные</h3>
+                    {personal.length === 0 ? (
+                        <p className="no-ach">Нет личных достижений</p>
+                    ) : (
+                        <ul>
+                            {personal.map(a => (
+                                <li key={a.title}>
+                                    <span className="ach-emoji">{a.emoji}</span>
+                                    <strong>{a.title}</strong>
+                                    {a.count > 1 && <em>×{a.count}</em>}
+                                    <div className="ach-desc">{a.description}</div>
+                                </li>
+                            ))}
                         </ul>
-                    }
-                </div>
+                    )}
+                </section>
 
-                <div className="team-achievements">
-                    <h3>Командные достижения</h3>
-                    {selectedSeason.achievements.filter(a => a.type === 'team').length === 0
-                        ? <p>Нет командных достижений</p>
-                        : <ul>
-                            {selectedSeason.achievements
-                                .filter(a => a.type === 'team')
-                                .map((ach, idx) => (
-                                    <li key={idx}>
-                                        {ach.emoji} <strong>{ach.title}</strong> — {ach.description}
-                                    </li>
-                                ))}
+                <section className="ach-section">
+                    <h3>Командные</h3>
+                    {team.length === 0 ? (
+                        <p className="no-ach">Нет командных достижений</p>
+                    ) : (
+                        <ul>
+                            {team.map(a => (
+                                <li key={a.title}>
+                                    <span className="ach-emoji">{a.emoji}</span>
+                                    <strong>{a.title}</strong>
+                                    {a.count > 1 && <em>×{a.count}</em>}
+                                    <div className="ach-desc">{a.description}</div>
+                                </li>
+                            ))}
                         </ul>
-                    }
-                </div>
+                    )}
+                </section>
             </div>
         </div>
     );
