@@ -1,6 +1,5 @@
-// src/components/GroupProfile.jsx
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import '../styles/GroupProfile.css';
 
 
@@ -8,7 +7,7 @@ const GroupProfile = () => {
     const truncate = (str, max = 8) =>
         str.length > max ? str.slice(0, max) + '…' : str;
     const { groupId: rawGroupId } = useParams();
-    const groupId = +rawGroupId; // приводим к числу
+    const groupId = +rawGroupId;
 
     const [groupName, setGroupName] = useState('');
     const [seasons, setSeasons] = useState([]);

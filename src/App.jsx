@@ -23,7 +23,6 @@ function App() {
       <Routes>
         <Route path="/" element={<GroupsTable />} />
         <Route path="/group/:groupId" element={<GroupProfile />} />
-        {/* вот здесь */}
         <Route path="/user/:userId/group/:groupId" element={<UserProfile />} />
         <Route path="*" element={<p>Page not found 404 xD</p>} />
       </Routes>

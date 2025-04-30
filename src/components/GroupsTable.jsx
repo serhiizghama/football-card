@@ -1,6 +1,6 @@
 // src/components/GroupsTable.jsx
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';            // <-- импортируем Link
+import { Link } from 'react-router-dom';
 import '../styles/GroupsTable.css';
 
 export default function GroupsTable() {
