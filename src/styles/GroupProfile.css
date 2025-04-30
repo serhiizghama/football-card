@@ -47,12 +47,16 @@ body,
     margin-bottom: 0.75rem;
 }
 
-/* ————— Список сезонов (горизонтальный скролл) ————— */
+/* ————— Список сезонов (горизонтальный скролл с центрировкой) ————— */
 .gp-seasons {
     display: flex;
+    justify-content: center;
+    /* центрируем кнопки */
     overflow-x: auto;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
+    gap: 0.4rem;
+    /* единый отступ между кнопками */
     -webkit-overflow-scrolling: touch;
 }
 
@@ -60,20 +64,21 @@ body,
     flex: 0 0 auto;
     background: var(--card-bg);
     color: var(--text-main);
-    border: none;
+    border: 1px solid transparent;
     border-radius: 20px;
     padding: 0.3rem 0.6rem;
-    margin-right: 0.4rem;
-    /* чуть меньше межкнопочный интервал */
     font-size: var(--font-base);
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
     white-space: nowrap;
 }
 
 .gp-season-btn.active {
     background: var(--accent);
     color: #121212;
+    border-color: var(--accent);
+    /* обводка активной кнопки */
+    box-shadow: 0 0 6px var(--accent);
 }
 
 /* ————— Обёртка для таблицы (скролл при переполнении) ————— */
@@ -86,20 +91,17 @@ body,
 .gp-table {
     width: 100%;
     border-collapse: collapse;
-    /* убрали min-width, чтобы таблица могла ужиматься */
     table-layout: auto;
 }
 
 .gp-table th,
 .gp-table td {
     padding: 0.25rem 0.4rem;
-    /* уменьшили и вертикальный, и горизонтальный паддинг */
     text-align: center;
     font-size: var(--font-base);
     color: var(--text-main);
     border-bottom: 1px solid #2d2d2d;
     white-space: nowrap;
-    /* по умолчанию не переносить */
 }
 
 .gp-table th {
@@ -115,6 +117,7 @@ body,
     background: var(--card-bg);
 }
 
+/* Колонка «Игрок» */
 .gp-player,
 .user-link {
     text-align: left;
@@ -131,27 +134,19 @@ body,
     font-weight: bold;
 }
 
-/* .user-link {
+.user-link {
+    display: inline-block;
+    /* чтобы ellipsis работал корректно */
     color: var(--text-main);
-    font-weight: normal;
     text-decoration: none;
-} */
+}
 
 .user-link:hover {
     text-decoration: underline;
 }
 
-
 /* ————— Адаптив для узких экранов ————— */
 @media (max-width: 480px) {
-
-    .gp-player,
-    .user-link {
-        font-size: 0.6rem;
-        /* или var(--font-small) */
-        max-width: 4.5rem;
-    }
-
     .gp-title {
         font-size: 1rem;
         margin-bottom: 0.5rem;
@@ -160,7 +155,6 @@ body,
     .gp-season-btn {
         padding: 0.25rem 0.5rem;
         font-size: var(--font-small);
-        margin-right: 0.3rem;
     }
 
     .gp-table {
@@ -172,8 +166,13 @@ body,
     .gp-table td {
         font-size: var(--font-small);
         padding: 0.2rem 0.3rem;
-        /* ещё более компактные отступы */
         white-space: normal;
-        /* разрешаем перенос, чтобы избежать скролла */
+        /* разрешаем перенос, чтобы избежать горизонтального скролла */
+    }
+
+    .gp-player,
+    .user-link {
+        font-size: 0.6rem;
+        max-width: 4.5rem;
     }
 }
