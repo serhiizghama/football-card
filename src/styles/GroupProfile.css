@@ -126,6 +126,17 @@ body,
     font-weight: bold;
 }
 
+.user-link {
+    color: var(--text-main);
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.user-link:hover {
+    text-decoration: underline;
+}
+
+
 /* ————— Адаптив для узких экранов ————— */
 @media (max-width: 480px) {
     .gp-title {
