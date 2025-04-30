@@ -44,19 +44,16 @@ body,
     text-align: center;
     font-size: var(--font-title);
     font-weight: bold;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
-/* ————— Список сезонов (горизонтальный скролл с центрировкой) ————— */
 .gp-seasons {
     display: flex;
     justify-content: center;
-    /* центрируем кнопки */
     overflow-x: auto;
     padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+    margin: 1rem auto 1rem;
     gap: 0.4rem;
-    /* единый отступ между кнопками */
     -webkit-overflow-scrolling: touch;
 }
 
