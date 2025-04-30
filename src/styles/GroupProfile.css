@@ -68,17 +68,18 @@ body,
     color: #121212;
 }
 
-/* Обёртка для скролла таблицы */
 .gp-table-wrap {
+    width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    margin-top: 1rem;
 }
 
 /* Таблица */
 .gp-table {
-    width: 100%;
     border-collapse: collapse;
-    min-width: 450px;
+    width: 100%;
+    min-width: 600px;
 }
 
 .gp-table th,
@@ -108,6 +109,11 @@ body,
     font-weight: 500;
 }
 
+.gp-index,
+.gp-score {
+    font-weight: bold;
+}
+
 /* Мобильная адаптация */
 @media (max-width: 480px) {
     .gp-title {
@@ -121,7 +127,7 @@ body,
 
     .gp-table th,
     .gp-table td {
-        padding: 0.3rem 0.5rem;
         font-size: 0.75rem;
+        padding: 0.3rem 0.5rem;
     }
 }
