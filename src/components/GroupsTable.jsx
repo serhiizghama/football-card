@@ -38,7 +38,6 @@ export default function GroupsTable() {
                         <th>Вечеров</th>
                         <th>Матчей</th>
                         <th>Участников</th>
-                        <th>Обновлено</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,11 +48,6 @@ export default function GroupsTable() {
                             <td>{g.eventsCount}</td>
                             <td>{g.matchesCount}</td>
                             <td>{g.participantsCount}</td>
-                            <td className="updated">
-                                {new Date(g.updatedAt).toLocaleDateString('ru', {
-                                    day: '2-digit', month: '2-digit', year: 'numeric'
-                                })}
-                            </td>
                         </tr>
                     ))}
                 </tbody>
