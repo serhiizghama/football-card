@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/GroupProfile.css';
 
+
 const GroupProfile = () => {
+    const truncate = (str, max = 8) =>
+        str.length > max ? str.slice(0, max) + '…' : str;
     const { groupId: rawGroupId } = useParams();
     const groupId = +rawGroupId; // приводим к числу
 
@@ -95,7 +98,7 @@ const GroupProfile = () => {
                         {sortedParticipants.map((p, idx) => (
                             <tr key={p.userId}>
                                 <td className="gp-index">{idx + 1}</td>
-                                <td className="gp-player">{p.name}</td>
+                                <td className="gp-player">{truncate(p.name)}</td>
                                 <td>{p.games}</td>
                                 <td>{p.wins}</td>
                                 <td>{p.losses}</td>
