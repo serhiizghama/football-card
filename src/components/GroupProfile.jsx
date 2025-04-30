@@ -1,7 +1,12 @@
+// src/components/GroupProfile.jsx
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import '../styles/GroupProfile.css';
 
-const GroupProfile = ({ groupId }) => {
+const GroupProfile = () => {
+    const { groupId: rawGroupId } = useParams();
+    const groupId = +rawGroupId; // приводим к числу
+
     const [groupName, setGroupName] = useState('');
     const [seasons, setSeasons] = useState([]);
     const [selectedSeason, setSelectedSeason] = useState('');
@@ -10,7 +15,7 @@ const GroupProfile = ({ groupId }) => {
 
     useEffect(() => {
         setLoading(true);
-        // 1) Сначала подгружаем список групп, чтобы достать groupName
+        // 1) Подгружаем список всех групп, чтобы вытащить имя
         fetch('https://api.ballrush.online/groups')
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -24,7 +29,7 @@ const GroupProfile = ({ groupId }) => {
                 setGroupName(`Group ${groupId}`);
             });
 
-        // 2) Затем подгружаем статистику по сезонам конкретной группы
+        // 2) Подгружаем статистику по сезону конкретной группы
         fetch(`https://api.ballrush.online/group/${groupId}`)
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
