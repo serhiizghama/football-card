@@ -1,4 +1,6 @@
+// src/components/GroupsTable.jsx
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';            // <-- импортируем Link
 import '../styles/GroupsTable.css';
 
 export default function GroupsTable() {
@@ -43,7 +45,12 @@ export default function GroupsTable() {
                     <tbody>
                         {groups.map(g => (
                             <tr key={g.groupId}>
-                                <td className="group-name">{g.groupName}</td>
+                                <td className="group-name">
+                                    {/* <-- делаем ссылку на /group/:groupId */}
+                                    <Link to={`/group/${g.groupId}`} className="group-link">
+                                        {g.groupName}
+                                    </Link>
+                                </td>
                                 <td>{g.seasonsCount}</td>
                                 <td>{g.eventsCount}</td>
                                 <td>{g.matchesCount}</td>
