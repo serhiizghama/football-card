@@ -1,12 +1,21 @@
-/* тема */
+/* ————— Тема и базовые переменные ————— */
 :root {
     --bg: #121212;
     --card-bg: #1e1e1e;
     --accent: #6cf;
     --text-main: #e0e0e0;
     --text-muted: #b0b0b0;
+
+    /* Новые переменные для управления размерами шрифтов */
+    --font-title: 1.25rem;
+    /* заголовок страницы */
+    --font-base: 0.75rem;
+    /* основной текст таблицы */
+    --font-small: 0.7rem;
+    /* ещё меньший текст для очень узких экранов */
 }
 
+/* Сброс и фон */
 body,
 #root {
     margin: 0;
@@ -16,6 +25,7 @@ body,
     font-family: Arial, sans-serif;
 }
 
+/* Состояния загрузки/ошибки */
 .loading,
 .error {
     text-align: center;
@@ -23,7 +33,7 @@ body,
     color: var(--text-main);
 }
 
-/* контейнер */
+/* ————— Контейнер таблицы групп ————— */
 .groups-table-container {
     width: 100%;
     max-width: 800px;
@@ -31,37 +41,39 @@ body,
     padding: 0.75rem;
 }
 
-/* заголовок */
+/* Заголовок */
 .groups-title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: var(--font-title);
     font-weight: bold;
     margin-bottom: 0.75rem;
 }
 
-/* обёртка для скрола */
+/* Обёртка для горизонтального скролла */
 .table-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* сама таблица */
+/* Сама таблица */
 .groups-table {
     width: 100%;
     border-collapse: collapse;
     min-width: 500px;
 }
 
+/* Ячейки заголовка и тела */
 .groups-table th,
 .groups-table td {
     padding: 0.5rem 0.75rem;
     text-align: center;
-    font-size: 0.85rem;
+    font-size: var(--font-base);
     color: var(--text-main);
     border-bottom: 1px solid #2d2d2d;
     white-space: nowrap;
 }
 
+/* Заголовки столбцов */
 .groups-table th {
     background: #2c2c2c;
     font-weight: 600;
@@ -70,55 +82,28 @@ body,
     z-index: 1;
 }
 
+/* Чередование фона строк */
 .groups-table tbody tr:nth-child(even) {
     background: var(--card-bg);
 }
 
+/* Выравнивание и начертание для названия группы */
 .group-name {
     text-align: left;
     font-weight: 500;
 }
 
-/* адаптив: ещё меньше на узких экранах */
+/* ————— Адаптив для узких экранов ————— */
 @media (max-width: 480px) {
     .groups-title {
-        font-size: 1.25rem;
+        font-size: 1rem;
+        /* ещё меньше для очень узких экранов */
         margin-bottom: 0.5rem;
     }
 
     .groups-table th,
     .groups-table td {
-        font-size: 0.75rem;
+        font-size: var(--font-small);
         padding: 0.4rem 0.5rem;
     }
-/* }
-
-.group-link {
-    display: inline-block;
-    padding: 0.4rem 0.8rem;
-    background-color: var(--card-bg);
-    color: var(--text-main);
-    border: 1px solid var(--accent);
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.2s, color 0.2s;
 }
-
-.group-link:hover,
-.group-link:focus {
-    background-color: var(--accent);
-    color: var(--bg);
-    outline: none;
-}
-
-.group-link.active {
-    background-color: var(--accent);
-    color: var(--bg);
-}
-
-.group-name {
-    text-align: left;
-    padding: 0.5rem 0.75rem;
-    white-space: nowrap;
-} */
