@@ -1,0 +1,57 @@
+/* переменные темы */
+:root {
+    --bg: #121212;
+    --card-bg: #1e1e1e;
+    --accent: #6cf;
+    --text-main: #e0e0e0;
+    --text-muted: #b0b0b0;
+}
+
+.groups-table-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+.groups-title {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.groups-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow-x: auto;
+}
+
+.groups-table th,
+.groups-table td {
+    padding: 0.75rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    border-bottom: 1px solid #2d2d2d;
+}
+
+.groups-table th {
+    background: #2c2c2c;
+    font-weight: 600;
+}
+
+.groups-table tbody tr:nth-child(even) {
+    background: var(--card-bg);
+}
+
+.group-name {
+    text-align: left;
+    font-weight: 500;
+}
+
+.updated {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
