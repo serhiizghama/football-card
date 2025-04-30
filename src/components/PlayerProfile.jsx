@@ -1,4 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import {
+    FaFutbol,          // Игры
+    FaTrophy,          // Победы
+    FaTimesCircle,     // Поражения
+    FaHandshake,       // Ничьи
+    FaStar,            // Очки
+    FaTachometerAlt,   // EFF
+    FaBrain            // Skill
+} from 'react-icons/fa';
+
 import '../styles/PlayerProfile.css';
 
 /**
@@ -76,15 +86,37 @@ const PlayerProfile = () => {
 
             <div className="season-stats">
                 <h2>Статистика сезона: {selectedSeason.season}</h2>
-                <ul>
-                    <li>Игры: {selectedSeason.games}</li>
-                    <li>Победы: {selectedSeason.wins}</li>
-                    <li>Поражения: {selectedSeason.losses}</li>
-                    <li>Ничьи: {selectedSeason.draws}</li>
-                    <li>Очки: {selectedSeason.points}</li>
-                    <li>EFF: {selectedSeason.efficiency}</li>
-                    <li>Skill: {selectedSeason.skill}</li>
+                <ul className="season-stats-list">
+                    <li>
+                        <FaFutbol className="stat-icon" />
+                        <span>Игры: {selectedSeason.games}</span>
+                    </li>
+                    <li>
+                        <FaTrophy className="stat-icon" />
+                        <span>Победы: {selectedSeason.wins}</span>
+                    </li>
+                    <li>
+                        <FaTimesCircle className="stat-icon" />
+                        <span>Поражения: {selectedSeason.losses}</span>
+                    </li>
+                    <li>
+                        <FaHandshake className="stat-icon" />
+                        <span>Ничьи: {selectedSeason.draws}</span>
+                    </li>
+                    <li>
+                        <FaStar className="stat-icon" />
+                        <span>Очки: {selectedSeason.points}</span>
+                    </li>
+                    <li>
+                        <FaTachometerAlt className="stat-icon" />
+                        <span>EFF: {selectedSeason.efficiency}</span>
+                    </li>
+                    <li>
+                        <FaBrain className="stat-icon" />
+                        <span>Skill: {selectedSeason.skill}</span>
+                    </li>
                 </ul>
+
             </div>
 
             <div className="achievements">

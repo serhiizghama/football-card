@@ -152,3 +152,22 @@ body {
 em {
     font-style: normal;
 }
+
+.season-stats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.season-stats-list li {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.stat-icon {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    color: #6cf;
+    /* или любой другой цвет */
+}
