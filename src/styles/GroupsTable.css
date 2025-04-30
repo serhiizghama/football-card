@@ -1,4 +1,4 @@
-/* переменные темы */
+/* тема */
 :root {
     --bg: #121212;
     --card-bg: #1e1e1e;
@@ -7,39 +7,67 @@
     --text-muted: #b0b0b0;
 }
 
-.groups-table-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
+body,
+#root {
+    margin: 0;
+    padding: 0;
     background: var(--bg);
+    color: var(--text-main);
+    font-family: Arial, sans-serif;
+}
+
+.loading,
+.error {
+    text-align: center;
+    padding: 2rem;
     color: var(--text-main);
 }
 
-.groups-title {
-    text-align: center;
-    font-size: 1.75rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+/* контейнер */
+.groups-table-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0.75rem;
 }
 
+/* заголовок */
+.groups-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+}
+
+/* обёртка для скрола */
+.table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* сама таблица */
 .groups-table {
     width: 100%;
     border-collapse: collapse;
-    overflow-x: auto;
+    min-width: 500px;
 }
 
 .groups-table th,
 .groups-table td {
-    padding: 0.75rem;
+    padding: 0.5rem 0.75rem;
     text-align: center;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-main);
     border-bottom: 1px solid #2d2d2d;
+    white-space: nowrap;
 }
 
 .groups-table th {
     background: #2c2c2c;
     font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .groups-table tbody tr:nth-child(even) {
@@ -51,7 +79,16 @@
     font-weight: 500;
 }
 
-.updated {
-    color: var(--text-muted);
-    font-size: 0.8rem;
+/* адаптив: ещё меньше на узких экранах */
+@media (max-width: 480px) {
+    .groups-title {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .groups-table th,
+    .groups-table td {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.5rem;
+    }
 }

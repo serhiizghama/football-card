@@ -1,4 +1,3 @@
-// src/components/GroupsTable.jsx
 import React, { useState, useEffect } from 'react';
 import '../styles/GroupsTable.css';
 
@@ -30,28 +29,30 @@ export default function GroupsTable() {
     return (
         <div className="groups-table-container">
             <h1 className="groups-title">Сравнение групп</h1>
-            <table className="groups-table">
-                <thead>
-                    <tr>
-                        <th>Группа</th>
-                        <th>Сезонов</th>
-                        <th>Вечеров</th>
-                        <th>Матчей</th>
-                        <th>Участников</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {groups.map(g => (
-                        <tr key={g.groupId}>
-                            <td className="group-name">{g.groupName}</td>
-                            <td>{g.seasonsCount}</td>
-                            <td>{g.eventsCount}</td>
-                            <td>{g.matchesCount}</td>
-                            <td>{g.participantsCount}</td>
+            <div className="table-wrapper">
+                <table className="groups-table">
+                    <thead>
+                        <tr>
+                            <th>Группа</th>
+                            <th>Сезонов</th>
+                            <th>Вечеров</th>
+                            <th>Матчей</th>
+                            <th>Участников</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {groups.map(g => (
+                            <tr key={g.groupId}>
+                                <td className="group-name">{g.groupName}</td>
+                                <td>{g.seasonsCount}</td>
+                                <td>{g.eventsCount}</td>
+                                <td>{g.matchesCount}</td>
+                                <td>{g.participantsCount}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
