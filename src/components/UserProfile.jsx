@@ -1,22 +1,17 @@
 // src/components/UserProfile.jsx
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';  // <-- импортируем Link
 import {
-    FaFutbol,          // Игры
-    FaTrophy,          // Победы
-    FaTimesCircle,     // Поражения
-    FaHandshake,       // Ничьи
-    FaStar,            // Очки
-    FaTachometerAlt,   // EFF
-    FaBrain            // Skill
+    FaFutbol,
+    FaTrophy,
+    FaTimesCircle,
+    FaHandshake,
+    FaStar,
+    FaTachometerAlt,
+    FaBrain
 } from 'react-icons/fa';
 import '../styles/UserProfile.css';
 
-/**
- * Группируем повторяющиеся ачивки и считаем их количество
- * @param {Array} achs
- * @returns {Array<{emoji: string, title: string, type: string, description: string, count: number}>}
- */
 function groupAchievements(achs) {
     const map = {};
     achs.forEach(a => {
@@ -30,7 +25,6 @@ function groupAchievements(achs) {
 }
 
 const UserProfile = () => {
-    // Берём параметры userId и groupId из URL
     const { userId: rawUserId, groupId: rawGroupId } = useParams();
     const userId = Number(rawUserId);
     const groupId = Number(rawGroupId);
@@ -55,12 +49,8 @@ const UserProfile = () => {
             });
     }, [userId, groupId]);
 
-    if (!user) {
-        return <div className="loading">Загрузка профиля…</div>;
-    }
-    if (!selectedSeason) {
-        return <div className="loading">У пользователя нет сезонов</div>;
-    }
+    if (!user) return <div className="loading">Загрузка профиля…</div>;
+    if (!selectedSeason) return <div className="loading">У пользователя нет сезонов</div>;
 
     const personal = groupAchievements(
         selectedSeason.achievements.filter(a => a.type === 'personal')
@@ -73,7 +63,12 @@ const UserProfile = () => {
         <div className="profile-container">
             <header className="profile-header">
                 <h1>{user.username}</h1>
-                <p>Группа: {user.groupName}</p>
+                <p>
+                    Группа:{' '}
+                    <Link to={`/group/${groupId}`} className="group-link">
+                        {user.groupName}
+                    </Link>
+                </p>
             </header>
 
             <div className="season-selector">
