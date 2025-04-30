@@ -6,16 +6,16 @@
     --text-main: #e0e0e0;
     --text-muted: #b0b0b0;
 
-    /* Новые переменные для управления размерами шрифтов */
+    /* Переменные для управления размерами шрифтов */
     --font-title: 1.25rem;
     /* заголовок страницы */
-    --font-base: 0.75rem;
+    --font-base: 0.7rem;
     /* основной текст таблицы */
-    --font-small: 0.7rem;
-    /* ещё меньший текст для очень узких экранов */
+    --font-small: 0.65rem;
+    /* ещё меньший текст для узких экранов */
 }
 
-/* Сброс и фон */
+/* Сброс стилей и фон */
 body,
 #root {
     margin: 0;
@@ -29,7 +29,7 @@ body,
 .loading,
 .error {
     text-align: center;
-    padding: 2rem;
+    padding: 1.5rem;
     color: var(--text-main);
 }
 
@@ -38,7 +38,7 @@ body,
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 0.75rem;
+    padding: 0.5rem;
 }
 
 /* Заголовок */
@@ -46,7 +46,7 @@ body,
     text-align: center;
     font-size: var(--font-title);
     font-weight: bold;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Обёртка для горизонтального скролла */
@@ -59,13 +59,14 @@ body,
 .groups-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 500px;
+    min-width: 450px;
 }
 
 /* Ячейки заголовка и тела */
 .groups-table th,
 .groups-table td {
-    padding: 0.5rem 0.75rem;
+    padding: 0.3rem 0.5rem;
+    /* уменьшили вертикальные и горизонтальные отступы */
     text-align: center;
     font-size: var(--font-base);
     color: var(--text-main);
@@ -87,7 +88,7 @@ body,
     background: var(--card-bg);
 }
 
-/* Выравнивание и начертание для названия группы */
+/* Выравнивание и стиль для названия группы */
 .group-name {
     text-align: left;
     font-weight: 500;
@@ -97,13 +98,13 @@ body,
 @media (max-width: 480px) {
     .groups-title {
         font-size: 1rem;
-        /* ещё меньше для очень узких экранов */
         margin-bottom: 0.5rem;
     }
 
     .groups-table th,
     .groups-table td {
         font-size: var(--font-small);
-        padding: 0.4rem 0.5rem;
+        padding: 0.2rem 0.4rem;
+        /* ещё более компактно */
     }
 }
