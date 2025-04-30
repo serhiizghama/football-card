@@ -176,7 +176,7 @@ body {
     grid-area: title;
     align-self: end;
     /* чуть ниже, чтобы был ближе к счётчику */
-    justify-self: start;
+    justify-self: center;
     /* по левому краю своей колонки */
     font-weight: bold;
     white-space: nowrap;
