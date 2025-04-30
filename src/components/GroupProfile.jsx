@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './GroupProfile.css';
+import '../styles/GroupProfile.css';
 
 const GroupProfile = ({ groupId }) => {
     const [groupName, setGroupName] = useState('');
