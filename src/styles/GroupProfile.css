@@ -6,13 +6,10 @@
     --text-main: #e0e0e0;
     --text-muted: #b0b0b0;
 
-    /* Переменные для управления размерами шрифтов */
+    /* Размеры шрифтов */
     --font-title: 1.25rem;
-    /* заголовок страницы */
     --font-base: 0.75rem;
-    /* основной текст таблицы */
     --font-small: 0.65rem;
-    /* ещё меньший текст для узких экранов */
 }
 
 /* Сброс стилей и фон */
@@ -25,7 +22,7 @@ body,
     font-family: Arial, sans-serif;
 }
 
-/* Состояния загрузки/ошибки/пустой список */
+/* Загрузка/ошибка/нет данных */
 .gp-loading,
 .gp-error,
 .gp-no-data {
@@ -66,7 +63,8 @@ body,
     border: none;
     border-radius: 20px;
     padding: 0.3rem 0.6rem;
-    margin-right: 0.5rem;
+    margin-right: 0.4rem;
+    /* чуть меньше межкнопочный интервал */
     font-size: var(--font-base);
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
@@ -78,7 +76,7 @@ body,
     color: #121212;
 }
 
-/* ————— Обёртка для таблицы (горизонтальный скролл) ————— */
+/* ————— Обёртка для таблицы (скролл при переполнении) ————— */
 .gp-table-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -88,18 +86,20 @@ body,
 .gp-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 500px;
-    /* чуть уже для мобильных */
+    /* убрали min-width, чтобы таблица могла ужиматься */
+    table-layout: auto;
 }
 
 .gp-table th,
 .gp-table td {
-    padding: 0.4rem 0.6rem;
+    padding: 0.25rem 0.4rem;
+    /* уменьшили и вертикальный, и горизонтальный паддинг */
     text-align: center;
     font-size: var(--font-base);
     color: var(--text-main);
     border-bottom: 1px solid #2d2d2d;
     white-space: nowrap;
+    /* по умолчанию не переносить */
 }
 
 .gp-table th {
@@ -115,15 +115,15 @@ body,
     background: var(--card-bg);
 }
 
-/* Выравнивание ячеек */
-.gp-index,
-.gp-score {
-    font-weight: bold;
-}
-
+/* Выравнивание ячейки игрока и стилевой акцент */
 .gp-player {
     text-align: left;
     font-weight: 500;
+}
+
+.gp-index,
+.gp-score {
+    font-weight: bold;
 }
 
 /* ————— Адаптив для узких экранов ————— */
@@ -136,11 +136,20 @@ body,
     .gp-season-btn {
         padding: 0.25rem 0.5rem;
         font-size: var(--font-small);
+        margin-right: 0.3rem;
+    }
+
+    .gp-table {
+        table-layout: fixed;
+        /* равномерно ужимаем колонки */
     }
 
     .gp-table th,
     .gp-table td {
         font-size: var(--font-small);
-        padding: 0.25rem 0.4rem;
+        padding: 0.2rem 0.3rem;
+        /* ещё более компактные отступы */
+        white-space: normal;
+        /* разрешаем перенос, чтобы избежать скролла */
     }
 }

@@ -27,7 +27,7 @@ function App() {
         <Route path="/group/:groupId" element={<GroupProfile />} />
 
         {/* По желанию: 404 */}
-        <Route path="*" element={<p>Page not found</p>} />
+        <Route path="*" element={<p>Page not found 404 xD</p>} />
       </Routes>
     </BrowserRouter>
   );
