@@ -21,16 +21,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Главная страница со списком групп */}
         <Route path="/" element={<GroupsTable />} />
-
         <Route path="/group/:groupId" element={<GroupProfile />} />
-        <Route path="/user/:userId/groupId/:groupId" element={<UserProfile />} />
-
-        {/* По желанию: 404 */}
+        {/* вот здесь */}
+        <Route path="/user/:userId/group/:groupId" element={<UserProfile />} />
         <Route path="*" element={<p>Page not found 404 xD</p>} />
       </Routes>
     </BrowserRouter>
+
   );
 }
 
