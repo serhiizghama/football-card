@@ -92,3 +92,29 @@ body,
         padding: 0.4rem 0.5rem;
     }
 }
+
+.group-link {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    background-color: var(--accent);
+    color: var(--bg);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.group-link:hover,
+.group-link:focus {
+    background-color: #4bb5e0;
+    /* slightly darker accent */
+    outline: none;
+}
+
+/* Optional: give the cell some breathing room */
+.group-name {
+    text-align: left;
+    font-weight: 500;
+    /* ensure the button doesn’t stretch the row */
+    white-space: nowrap;
+}

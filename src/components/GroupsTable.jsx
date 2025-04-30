@@ -46,7 +46,6 @@ export default function GroupsTable() {
                         {groups.map(g => (
                             <tr key={g.groupId}>
                                 <td className="group-name">
-                                    {/* <-- делаем ссылку на /group/:groupId */}
                                     <Link to={`/group/${g.groupId}`} className="group-link">
                                         {g.groupName}
                                     </Link>
