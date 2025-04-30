@@ -1,3 +1,19 @@
+:root {
+  --bg: #121212;
+  --card-bg: #1e1e1e;
+  --accent: #6cf;
+  --text-main: #e0e0e0;
+  --text-muted: #b0b0b0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--text-main);
+  font-family: Arial, sans-serif;
+}
+
 #root {
   width: 100%;
   margin: 0;
@@ -5,15 +21,55 @@
   text-align: center;
 }
 
+/* ----- Tab Navigation ----- */
+.app-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.app-tab {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  color: var(--text-main);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.app-tab:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.app-tab.active {
+  background: var(--accent);
+  color: #000;
+}
+
+/* ----- General Card ----- */
+.card {
+  padding: 2em;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  border: 1px solid #2d2d2d;
+}
+
+/* ----- Logo Animations (unchanged) ----- */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #8ab4f8aa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #8ab4f8aa);
 }
@@ -22,6 +78,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -33,13 +90,7 @@
   }
 }
 
-.card {
-  padding: 2em;
-  background-color: #1e1e1e;
-  border-radius: 8px;
-  border: 1px solid #2d2d2d;
-}
-
+/* ----- Utility Text Styles ----- */
 .read-the-docs {
   color: #8ab4f8;
 }
