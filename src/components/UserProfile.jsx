@@ -8,7 +8,7 @@ import {
     FaTachometerAlt,   // EFF
     FaBrain            // Skill
 } from 'react-icons/fa';
-import '../styles/PlayerProfile.css';
+import '../styles/UserProfile.css';
 
 /**
  * Группируем повторяющиеся ачивки и считаем их количество
@@ -27,7 +27,7 @@ function groupAchievements(achs) {
     return Object.values(map);
 }
 
-const PlayerProfile = () => {
+const UserProfile = () => {
     const [user, setUser] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
 
@@ -174,4 +174,4 @@ const PlayerProfile = () => {
     );
 };
 
-export default PlayerProfile;
+export default UserProfile;

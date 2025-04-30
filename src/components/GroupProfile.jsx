@@ -98,7 +98,9 @@ const GroupProfile = () => {
                         {sortedParticipants.map((p, idx) => (
                             <tr key={p.userId}>
                                 <td className="gp-index">{idx + 1}</td>
-                                <td className="gp-player">{truncate(p.name)}</td>
+                                <Link to={`/user/${p.userId}/group/${groupId}`} className="user-link">
+                                    {truncate(p.name)}
+                                </Link>
                                 <td>{p.games}</td>
                                 <td>{p.wins}</td>
                                 <td>{p.losses}</td>
