@@ -1,4 +1,6 @@
+// src/components/UserProfile.jsx
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import {
     FaFutbol,          // Игры
     FaTrophy,          // Победы
@@ -28,11 +30,13 @@ function groupAchievements(achs) {
 }
 
 const UserProfile = () => {
+    // Берём параметры userId и groupId из URL
+    const { userId: rawUserId, groupId: rawGroupId } = useParams();
+    const userId = Number(rawUserId);
+    const groupId = Number(rawGroupId);
+
     const [user, setUser] = useState(null);
     const [selectedSeason, setSelectedSeason] = useState(null);
-
-    const userId = 5197715916;
-    const groupId = -1001891077621;
 
     useEffect(() => {
         fetch(`https://api.ballrush.online/user/${userId}/group/${groupId}`)
@@ -42,13 +46,21 @@ const UserProfile = () => {
             })
             .then(data => {
                 setUser(data);
-                if (data.seasons.length) setSelectedSeason(data.seasons[0]);
+                if (data.seasons.length) {
+                    setSelectedSeason(data.seasons[0]);
+                }
             })
-            .catch(err => console.error('Ошибка:', err));
+            .catch(err => {
+                console.error('Ошибка:', err);
+            });
     }, [userId, groupId]);
 
-    if (!user) return <div className="loading">Загрузка профиля…</div>;
-    if (!selectedSeason) return <div className="loading">У пользователя нет сезонов</div>;
+    if (!user) {
+        return <div className="loading">Загрузка профиля…</div>;
+    }
+    if (!selectedSeason) {
+        return <div className="loading">У пользователя нет сезонов</div>;
+    }
 
     const personal = groupAchievements(
         selectedSeason.achievements.filter(a => a.type === 'personal')
