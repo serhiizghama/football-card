@@ -29,7 +29,7 @@ const GroupProfile = () => {
                 setGroupName(`Group ${groupId}`);
             });
 
-        // 2) Подгружаем статистику по сезону конкретной группы
+        // 2) Подгружаем статистику по сезонам конкретной группы
         fetch(`https://api.ballrush.online/group/${groupId}`)
             .then(res => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -52,6 +52,15 @@ const GroupProfile = () => {
 
     const current = seasons.find(s => s.seasonName === selectedSeason);
 
+    // Считаем score и сортируем участников
+    const sortedParticipants = [...current.participants]
+        .map(p => {
+            const games = p.wins + p.losses + p.draws;
+            const score = p.wins * 3 + p.draws * 1 + p.losses * -1;
+            return { ...p, games, score };
+        })
+        .sort((a, b) => b.score - a.score);
+
     return (
         <div className="gp-container">
             <h1 className="gp-title">{groupName}</h1>
@@ -72,28 +81,29 @@ const GroupProfile = () => {
                 <table className="gp-table">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Игрок</th>
                             <th>Игр</th>
                             <th>Побед</th>
                             <th>Пораж.</th>
                             <th>Skill</th>
                             <th>Ачивок</th>
+                            <th>Score</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {current.participants.map(p => {
-                            const games = p.wins + p.losses + p.draws;
-                            return (
-                                <tr key={p.userId}>
-                                    <td className="gp-player">{p.name}</td>
-                                    <td>{games}</td>
-                                    <td>{p.wins}</td>
-                                    <td>{p.losses}</td>
-                                    <td>{p.skill.toFixed(1)}</td>
-                                    <td>{p.achievements.length}</td>
-                                </tr>
-                            );
-                        })}
+                        {sortedParticipants.map((p, idx) => (
+                            <tr key={p.userId}>
+                                <td className="gp-index">{idx + 1}</td>
+                                <td className="gp-player">{p.name}</td>
+                                <td>{p.games}</td>
+                                <td>{p.wins}</td>
+                                <td>{p.losses}</td>
+                                <td>{p.skill.toFixed(1)}</td>
+                                <td>{p.achievements.length}</td>
+                                <td className="gp-score">{p.score}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
