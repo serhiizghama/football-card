@@ -89,7 +89,7 @@ body,
     font-weight: 500;
     font-size: var(--font-small);
     white-space: nowrap;
-    overflow: hidden;
+    /* overflow: hidden; */
     text-overflow: ellipsis;
     max-width: 7rem;
 }
