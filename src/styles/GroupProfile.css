@@ -124,7 +124,7 @@ body,
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 6rem;
+    max-width: 7rem;
 }
 
 .gp-index,

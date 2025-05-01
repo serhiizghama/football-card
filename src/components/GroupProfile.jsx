@@ -98,7 +98,7 @@ const GroupProfile = () => {
                             <tr key={p.userId}>
                                 <td className="gp-index">{idx + 1}</td>
                                 <Link to={`/user/${p.userId}/group/${groupId}`} className="user-link">
-                                    {truncate(p.name)}
+                                    {p.name}
                                 </Link>
                                 <td>{p.games}</td>
                                 <td>{p.wins}</td>
