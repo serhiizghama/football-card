@@ -27,10 +27,12 @@ const Header: React.FC = () => {
     return (
         <header className={`header ${showHeader ? 'visible' : 'hidden'}`}>
             <div className="header-content">
-                {!isRoot && (
+                {!isRoot ? (
                     <button className="back-button" onClick={() => navigate(-1)}>
                         &laquo;
                     </button>
+                ) : (
+                    <div className="side-space" />
                 )}
 
                 <div className="header-center" onClick={() => navigate('/')}>
