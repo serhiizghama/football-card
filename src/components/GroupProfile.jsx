@@ -121,9 +121,11 @@ const GroupProfile = () => {
                                 <td className="gp-index">
                                     {getRankEmoji(idx)} {idx + 1}
                                 </td>
-                                <Link to={`/user/${p.userId}/group/${groupId}`} className="user-link">
-                                    {p.name}
-                                </Link>
+                                <td className="gp-player">
+                                    <Link to={`/user/${p.userId}/group/${groupId}`} className="user-link">
+                                        {p.name}
+                                    </Link>
+                                </td>
                                 <td>{p.games}</td>
                                 <td>{p.wins}</td>
                                 <td>{p.losses}</td>
