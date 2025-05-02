@@ -175,3 +175,28 @@ body,
         max-width: 4.5rem;
     }
 }
+
+/* Топ-1 */
+.gp-table tbody tr:nth-child(1) {
+    background-color: #2b3d4d;
+}
+
+/* Топ-2 */
+.gp-table tbody tr:nth-child(2) {
+    background-color: #273947;
+}
+
+/* Топ-3 */
+.gp-table tbody tr:nth-child(3) {
+    background-color: #243542;
+}
+
+/* Топ-4 — 10 */
+.gp-table tbody tr:nth-child(n+4):nth-child(-n+10) {
+    background-color: #202f3b;
+}
+
+/* Топ-11 — 20 */
+.gp-table tbody tr:nth-child(n+11):nth-child(-n+20) {
+    background-color: #1a262f;
+}
