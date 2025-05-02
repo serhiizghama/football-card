@@ -1,9 +1,39 @@
+/* Обновлённый сброс + растягивание на весь экран */
+html,
+body,
 #root {
+  height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
   text-align: center;
 }
+
+/* Контейнер обёртка всего приложения */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* тянем на весь экран */
+}
+
+/* Контент, который толкает футер вниз */
+.app-content {
+  flex: 1;
+  /* занимает всё доступное пространство */
+}
+
+/* Футер */
+.app-footer {
+  padding: 0.5rem;
+  background-color: #1e1e1e;
+  color: var(--text-muted);
+  text-align: center;
+  font-size: var(--font-small);
+  border-top: 1px solid #2d2d2d;
+}
+
+/* Твои стили ниже — всё оставлено как есть */
 
 .logo {
   height: 6em;
@@ -11,9 +41,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #8ab4f8aa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #8ab4f8aa);
 }
@@ -22,6 +54,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

@@ -22,15 +22,20 @@ function App() {
   return (
     <BrowserRouter>
       <PageTracker />
-      <Routes>
-        <Route path="/" element={<GroupsTable />} />
-        <Route path="/group/:groupId" element={<GroupProfile />} />
-        <Route path="/user/:userId/group/:groupId" element={<UserProfile />} />
-        <Route path="*" element={<p>Page not found 404 xD</p>} />
-      </Routes>
-      <Footer />
+      <div className="app-wrapper">
+        <div className="app-content">
+          <Routes>
+            <Route path="/" element={<GroupsTable />} />
+            <Route path="/group/:groupId" element={<GroupProfile />} />
+            <Route path="/user/:userId/group/:groupId" element={<UserProfile />} />
+            <Route path="*" element={<p>Page not found 404 xD</p>} />
+          </Routes>
+        </div>
+        <Footer />
+      </div>
     </BrowserRouter>
   );
+
 }
 
 function PageTracker() {
