@@ -71,6 +71,12 @@ body,
     white-space: nowrap;
 }
 
+/* Убираем двойную рамку при фокусе */
+.gp-season-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .gp-season-btn.active {
     background: var(--accent);
     color: #121212;
