@@ -41,6 +41,10 @@
     font-size: 0.8rem;
 }
 
+.back-button:focus {
+    outline: none;
+    box-shadow: none;
+}
 /* Левая кнопка или заглушка */
 .back-button,
 .side-space {
