@@ -9,7 +9,6 @@ const GroupProfile = () => {
         if (index === 1) return '🥈';
         if (index === 2) return '🥉';
         if (index < 10) return '🔥';
-        if (index < 20) return '✅';
         return '';
     };
 
