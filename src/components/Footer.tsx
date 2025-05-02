@@ -4,13 +4,13 @@ import '../styles/Footer.css';
 
 
 const Footer = () => {
-    const commit1 = import.meta.env.VITE_COMMIT_SHA?.slice(0, 7);
-    const commit2 = process.env.VITE_COMMIT_SHA?.slice(0, 7);
-    const lastDeployed = `Commit: ${commit1} | ${commit2}`;
+    const commit = import.meta.env.VITE_COMMIT_SHA?.slice(0, 7) ?? 'dev';
+    const date = import.meta.env.VITE_DEPLOY_DATE ?? 'unknown';
+    const branch = import.meta.env.VITE_BRANCH ?? 'main';
 
     return (
         <footer className="app-footer">
-            <span>ballrush © | {lastDeployed}</span>
+            <span>ballrush © | {commit} | {date} | {branch}</span>
         </footer>
     );
 };
