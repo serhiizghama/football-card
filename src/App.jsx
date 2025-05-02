@@ -22,6 +22,7 @@ function App() {
   return (
     <BrowserRouter>
       <PageTracker />
+      <Header />
       <div className="app-wrapper">
         <div className="app-content">
           <Routes>
