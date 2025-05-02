@@ -23,8 +23,8 @@ function App() {
   return (
     <BrowserRouter>
       <PageTracker />
-      <Header />
       <div className="app-wrapper">
+        <Header />
         <div className="app-content">
           <Routes>
             <Route path="/" element={<GroupsTable />} />

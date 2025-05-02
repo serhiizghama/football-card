@@ -37,9 +37,7 @@
 
 .logo-dot {
     color: var(--accent);
-    /* #6cf по умолчанию */
-    font-weight: 400;
-    margin-left: 2px;
+    font-weight: 600;
     font-size: 0.8rem;
 }
 
