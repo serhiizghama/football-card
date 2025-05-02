@@ -4,8 +4,15 @@ import '../styles/GroupProfile.css';
 
 
 const GroupProfile = () => {
-    const truncate = (str, max = 8) =>
-        str.length > max ? str.slice(0, max) + '…' : str;
+    const getRankEmoji = (index) => {
+        if (index === 0) return '🥇';
+        if (index === 1) return '🥈';
+        if (index === 2) return '🥉';
+        if (index < 10) return '🔥';
+        if (index < 20) return '✅';
+        return '';
+    };
+
     const { groupId: rawGroupId } = useParams();
     const groupId = +rawGroupId;
 
@@ -96,7 +103,9 @@ const GroupProfile = () => {
                     <tbody>
                         {sortedParticipants.map((p, idx) => (
                             <tr key={p.userId}>
-                                <td className="gp-index">{idx + 1}</td>
+                                <td className="gp-index">
+                                    {getRankEmoji(idx)} {idx + 1}
+                                </td>
                                 <Link to={`/user/${p.userId}/group/${groupId}`} className="user-link">
                                     {p.name}
                                 </Link>
