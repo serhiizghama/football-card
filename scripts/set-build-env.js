@@ -6,7 +6,7 @@ import { execSync } from 'child_process';
 const commitHash = execSync('git rev-parse HEAD').toString().trim();
 const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 const now = new Date().toLocaleString('ru-RU', {
-    timeZone: 'Europe/Moscow',
+    timeZone: 'Asia/Bangkok',
     hour12: false
 });
 
