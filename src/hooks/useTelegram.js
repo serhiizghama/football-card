@@ -6,10 +6,10 @@ const useTelegram = () => {
 
   useEffect(() => {
     const tg = window.Telegram.WebApp;
-    
+
     // Initialize Telegram WebApp
     tg.ready();
-    
+
     // Expand the WebApp to full height
     tg.expand();
 
@@ -24,7 +24,7 @@ const useTelegram = () => {
         startParam: tg.initDataUnsafe.start_param,
       });
     }
-    
+
     setIsLoading(false);
   }, []);
 

@@ -5,9 +5,11 @@ import GroupsTable from './components/GroupsTable';
 import GroupProfile from './components/GroupProfile';
 import UserProfile from './components/UserProfile';
 import useTelegram from './hooks/useTelegram';
+import usePageTracking from './hooks/usePageTracking';
 import './App.css';
 
 function App() {
+  usePageTracking();
   const { user, isLoading: isTelegramLoading } = useTelegram();
 
   if (isTelegramLoading) {
