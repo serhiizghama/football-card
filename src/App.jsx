@@ -6,6 +6,7 @@ import UserProfile from './components/UserProfile';
 import useTelegram from './hooks/useTelegram';
 import usePageTracking from './hooks/usePageTracking';
 import Footer from './components/Footer';
+import Header from './components/Header';
 import './App.css';
 
 function App() {
