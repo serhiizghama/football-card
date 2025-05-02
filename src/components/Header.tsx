@@ -13,13 +13,7 @@ const Header: React.FC = () => {
 
     const handleScroll = () => {
         const currentScrollY = window.scrollY;
-
-        if (currentScrollY < lastScrollY || currentScrollY < 10) {
-            setShowHeader(true);
-        } else {
-            setShowHeader(false);
-        }
-
+        setShowHeader(currentScrollY < lastScrollY || currentScrollY < 10);
         setLastScrollY(currentScrollY);
     };
 
@@ -29,8 +23,6 @@ const Header: React.FC = () => {
     }, [lastScrollY]);
 
     const isRoot = location.pathname === '/';
-    console.log('Telegram user:', user);
-
 
     return (
         <header className={`header ${showHeader ? 'visible' : 'hidden'}`}>
@@ -40,8 +32,12 @@ const Header: React.FC = () => {
                         &laquo;
                     </button>
                 )}
-                <div className="header-title">BallRush</div>
-                {user && (
+
+                <div className="header-center" onClick={() => navigate('/')}>
+                    BallRush
+                </div>
+
+                {user ? (
                     <div className="user-avatar">
                         {user.photo_url ? (
                             <img src={user.photo_url} alt="user" />
@@ -51,6 +47,8 @@ const Header: React.FC = () => {
                             </div>
                         )}
                     </div>
+                ) : (
+                    <div className="user-placeholder-space" />
                 )}
             </div>
         </header>

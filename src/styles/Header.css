@@ -19,16 +19,26 @@
 
 .header-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0.4rem 1rem;
+    justify-content: space-between;
+    height: 42px;
+    /* меньше высота */
+    padding: 0 0.75rem;
+    position: relative;
 }
 
-.header-title {
+/* Центрированное название */
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 1rem;
     font-weight: bold;
+    cursor: pointer;
+    color: #e0e0e0;
 }
 
+/* Левая кнопка */
 .back-button {
     background: none;
     border: none;
@@ -37,6 +47,7 @@
     cursor: pointer;
 }
 
+/* Правая аватарка */
 .user-avatar img {
     width: 28px;
     height: 28px;
@@ -54,4 +65,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.user-placeholder-space {
+    width: 28px;
+    height: 28px;
 }
