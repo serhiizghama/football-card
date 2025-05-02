@@ -8,9 +8,21 @@ const GroupProfile = () => {
         if (index === 0) return '🥇';
         if (index === 1) return '🥈';
         if (index === 2) return '🥉';
-        if (index < 10) return '🔥';
         return '';
     };
+
+    const seasonOrder = ['Winter', 'Spring', 'Summer', 'Autumn'];
+
+    const sortSeasons = (list) => {
+        return [...list].sort((a, b) => {
+            const [aName, aYear] = a.seasonName.split(' ');
+            const [bName, bYear] = b.seasonName.split(' ');
+            const yearDiff = parseInt(aYear) - parseInt(bYear);
+            if (yearDiff !== 0) return yearDiff;
+            return seasonOrder.indexOf(aName) - seasonOrder.indexOf(bName);
+        });
+    };
+
 
     const { groupId: rawGroupId } = useParams();
     const groupId = +rawGroupId;
@@ -44,8 +56,12 @@ const GroupProfile = () => {
                 return res.json();
             })
             .then(data => {
-                setSeasons(data);
-                if (data.length) setSelectedSeason(data[0].seasonName);
+                const sorted = sortSeasons(data);
+                setSeasons(sorted);
+                if (sorted.length) {
+                    const last = sorted[sorted.length - 1];
+                    setSelectedSeason(last.seasonName);
+                }
                 setLoading(false);
             })
             .catch(err => {
