@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GroupsTable from './components/GroupsTable';
@@ -9,7 +8,6 @@ import usePageTracking from './hooks/usePageTracking';
 import './App.css';
 
 function App() {
-  usePageTracking();
   const { user, isLoading: isTelegramLoading } = useTelegram();
 
   if (isTelegramLoading) {
@@ -22,6 +20,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <PageTracker />
       <Routes>
         <Route path="/" element={<GroupsTable />} />
         <Route path="/group/:groupId" element={<GroupProfile />} />
@@ -29,8 +28,12 @@ function App() {
         <Route path="*" element={<p>Page not found 404 xD</p>} />
       </Routes>
     </BrowserRouter>
-
   );
+}
+
+function PageTracker() {
+  usePageTracking();
+  return null;
 }
 
 export default App;
