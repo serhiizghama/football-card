@@ -6,7 +6,7 @@
     /* больше не фиксируем */
     position: relative;
     z-index: 1;
-    /* можно убрать, если нет перекрытий */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .header-content {
