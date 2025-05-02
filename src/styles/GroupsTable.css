@@ -85,7 +85,7 @@ body,
 /* Название группы */
 .group-name,
 .group-link {
-    text-align: left;
+    text-align: center;
     font-weight: 500;
     font-size: var(--font-small);
     white-space: nowrap;
