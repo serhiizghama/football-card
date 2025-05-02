@@ -25,7 +25,22 @@
     font-size: 0.85rem;
     font-weight: bold;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.logo-main {
     color: #e0e0e0;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.logo-dot {
+    color: var(--accent);
+    /* #6cf по умолчанию */
+    font-weight: 400;
+    margin-left: 2px;
+    font-size: 0.8rem;
 }
 
 /* Левая кнопка или заглушка */

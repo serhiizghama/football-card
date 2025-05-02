@@ -22,8 +22,10 @@ const Header: React.FC = () => {
                 )}
 
                 <div className="header-center" onClick={() => navigate('/')}>
-                    BallRush
+                    <span className="logo-main">ballrush</span>
+                    <span className="logo-dot">.online</span>
                 </div>
+
 
                 {user ? (
                     <div className="user-avatar">
