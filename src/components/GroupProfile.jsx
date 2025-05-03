@@ -110,6 +110,7 @@ const GroupProfile = () => {
                             <th>Игр</th>
                             <th>Побед</th>
                             <th>Пораж.</th>
+                            <th>Ничии</th>
                             <th>Skill</th>
                             <th>Ачивок</th>
                             <th>Score</th>
@@ -129,6 +130,7 @@ const GroupProfile = () => {
                                 <td>{p.games}</td>
                                 <td>{p.wins}</td>
                                 <td>{p.losses}</td>
+                                <td>{p.draws}</td>
                                 <td>{p.skill.toFixed(1)}</td>
                                 <td>{p.achievements.length}</td>
                                 <td className="gp-score">{p.score}</td>
