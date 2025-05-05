@@ -93,7 +93,7 @@ const GroupProfile = () => {
                 seasonInfo.status === 'ended' ? '🔴 Finished' :
                     '🕐 Upcoming';
 
-        return `📅 ${start}–${end} • 🎯 ${seasonInfo.eventsCount} вечеров • ⚽ ${seasonInfo.matchesCount} матчей • 👥 ${seasonInfo.playersCount} игроков • ${emoji}`;
+        return `📅 ${start}–${end} • 🎯 ${seasonInfo.eventsCount} events • ⚽ ${seasonInfo.matchesCount} matches • 👥 ${seasonInfo.playersCount} players • ${emoji}`;
     })() : null;
 
     return (
