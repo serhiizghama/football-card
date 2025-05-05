@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../styles/GroupProfile.css';
 
+import {
+    PiCalendarBold,
+    PiTargetBold,
+    PiSoccerBallBold,
+    PiUsersBold,
+    PiCircleBold,
+} from 'react-icons/pi';
+
 const GroupProfile = () => {
     const getRankEmoji = (index) => {
         if (index === 0) return '🥇';
@@ -88,12 +96,27 @@ const GroupProfile = () => {
     const seasonInfoText = seasonInfo ? (() => {
         const start = new Date(seasonInfo.startDate).toLocaleDateString('ru-RU');
         const end = new Date(seasonInfo.endDate).toLocaleDateString('ru-RU');
-        const emoji =
-            seasonInfo.status === 'in_progress' ? '🟢 In progress' :
-                seasonInfo.status === 'ended' ? '🔴 Finished' :
-                    '🕐 Upcoming';
 
-        return `📅 ${start}–${end} • 🎯 ${seasonInfo.eventsCount} events • ⚽ ${seasonInfo.matchesCount} matches • 👥 ${seasonInfo.playersCount} players • ${emoji}`;
+        let statusColor = 'var(--accent)';
+        let statusText = 'Upcoming';
+
+        if (seasonInfo.status === 'in_progress') {
+            statusColor = 'var(--accent)';
+            statusText = 'In progress';
+        } else if (seasonInfo.status === 'ended') {
+            statusColor = '#f44336';
+            statusText = 'Finished';
+        }
+
+        return (
+            <div className="season-info-line">
+                <PiCalendarBold className="info-icon" /> {start}–{end} •
+                <PiTargetBold className="info-icon" /> {seasonInfo.eventsCount} events •
+                <PiSoccerBallBold className="info-icon" /> {seasonInfo.matchesCount} matches •
+                <PiUsersBold className="info-icon" /> {seasonInfo.playersCount} players •
+                <PiCircleBold className="info-icon" style={{ color: statusColor }} /> {statusText}
+            </div>
+        );
     })() : null;
 
     return (
