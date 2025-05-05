@@ -110,11 +110,26 @@ const GroupProfile = () => {
 
         return (
             <div className="season-info-line">
-                <PiCalendarBold className="info-icon" /> {start}–{end} 
-                <PiTargetBold className="info-icon" /> {seasonInfo.eventsCount} events 
-                <PiSoccerBallBold className="info-icon" /> {seasonInfo.matchesCount} matches 
-                <PiUsersBold className="info-icon" /> {seasonInfo.playersCount} players 
-                <PiCircleBold className="info-icon" style={{ color: statusColor }} /> {statusText}
+                <span className="season-info-item">
+                    <PiCalendarBold className="season-info-icon" />
+                    {start}–{end}
+                </span>
+                <span className="season-info-item">
+                    <PiTargetBold className="season-info-icon" />
+                    {seasonInfo.eventsCount} events
+                </span>
+                <span className="season-info-item">
+                    <PiSoccerBallBold className="season-info-icon" />
+                    {seasonInfo.matchesCount} matches
+                </span>
+                <span className="season-info-item">
+                    <PiUsersBold className="season-info-icon" />
+                    {seasonInfo.playersCount} players
+                </span>
+                <span className="season-info-item">
+                    <PiCircleBold className="season-info-icon" />
+                    {statusText}
+                </span>
             </div>
         );
     })() : null;

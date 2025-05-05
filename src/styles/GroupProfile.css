@@ -205,6 +205,11 @@ body,
     margin-bottom: 0.75rem;
     line-height: 1.4;
     margin-right: 0.8rem;
+    display: flex;
+    gap: 0.8rem;
+    color: var(--text-muted);
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .info-icon {
@@ -212,4 +217,13 @@ body,
     vertical-align: middle;
     margin-right: 0.25em;
     display: inline-block;
+    font-size: 1rem;
+}
+
+.season-info-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    white-space: nowrap;
+    /* ⛔️ запрещаем перенос внутри */
 }
