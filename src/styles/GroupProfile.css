@@ -196,3 +196,12 @@ body,
         max-width: 4.5rem;
     }
 }
+
+.season-info-line {
+    text-align: center;
+    font-size: var(--font-small);
+    color: var(--text-muted);
+    margin-top: -0.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}

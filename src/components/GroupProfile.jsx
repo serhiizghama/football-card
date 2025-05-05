@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import '../styles/GroupProfile.css';
 
-
 const GroupProfile = () => {
     const getRankEmoji = (index) => {
         if (index === 0) return '🥇';
@@ -23,24 +22,19 @@ const GroupProfile = () => {
         });
     };
 
-
     const { groupId: rawGroupId } = useParams();
     const groupId = +rawGroupId;
 
     const [groupName, setGroupName] = useState('');
     const [seasons, setSeasons] = useState([]);
     const [selectedSeason, setSelectedSeason] = useState('');
+    const [seasonInfo, setSeasonInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        setLoading(true);
-        // 1) Подгружаем список всех групп, чтобы вытащить имя
         fetch('https://api.ballrush.online/groups')
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return res.json();
-            })
+            .then(res => res.json())
             .then(list => {
                 const g = list.find(item => item.groupId === groupId);
                 setGroupName(g ? g.groupName : `Group ${groupId}`);
@@ -49,12 +43,8 @@ const GroupProfile = () => {
                 setGroupName(`Group ${groupId}`);
             });
 
-        // 2) Подгружаем статистику по сезонам конкретной группы
         fetch(`https://api.ballrush.online/group/${groupId}`)
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return res.json();
-            })
+            .then(res => res.json())
             .then(data => {
                 const sorted = sortSeasons(data);
                 setSeasons(sorted);
@@ -70,13 +60,22 @@ const GroupProfile = () => {
             });
     }, [groupId]);
 
+    // Загружаем информацию о сезоне
+    useEffect(() => {
+        if (!selectedSeason) return;
+
+        fetch(`https://api.ballrush.online/season-info/${groupId}/${selectedSeason}`)
+            .then(res => res.json())
+            .then(setSeasonInfo)
+            .catch(() => setSeasonInfo(null));
+    }, [groupId, selectedSeason]);
+
     if (loading) return <div className="gp-loading">Загрузка группы…</div>;
     if (error) return <div className="gp-error">Ошибка: {error}</div>;
     if (!seasons.length) return <div className="gp-no-data">Нет данных по сезонам</div>;
 
     const current = seasons.find(s => s.seasonName === selectedSeason);
 
-    // Считаем score и сортируем участников
     const sortedParticipants = [...current.participants]
         .map(p => {
             const games = p.wins + p.losses + p.draws;
@@ -84,6 +83,18 @@ const GroupProfile = () => {
             return { ...p, games, score };
         })
         .sort((a, b) => b.score - a.score);
+
+    // 🧾 Формируем строку информации о сезоне
+    const seasonInfoText = seasonInfo ? (() => {
+        const start = new Date(seasonInfo.startDate).toLocaleDateString('ru-RU');
+        const end = new Date(seasonInfo.endDate).toLocaleDateString('ru-RU');
+        const emoji =
+            seasonInfo.status === 'in_progress' ? '🟢 In progress' :
+                seasonInfo.status === 'ended' ? '🔴 Finished' :
+                    '🕐 Upcoming';
+
+        return `📅 ${start}–${end} • 🎯 ${seasonInfo.eventsCount} вечеров • ⚽ ${seasonInfo.matchesCount} матчей • 👥 ${seasonInfo.playersCount} игроков • ${emoji}`;
+    })() : null;
 
     return (
         <div className="gp-container">
@@ -100,6 +111,10 @@ const GroupProfile = () => {
                     </button>
                 ))}
             </div>
+
+            {seasonInfoText && (
+                <div className="season-info-line">{seasonInfoText}</div>
+            )}
 
             <div className="gp-table-wrap">
                 <table className="gp-table">
