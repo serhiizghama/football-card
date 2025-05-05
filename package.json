@@ -1,14 +1,16 @@
 {
-  "name": "mobile-app",
+  "name": "ballrush-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "prebuild": "node scripts/set-build-env.js",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prodd": "pm2 delete ballrush-web && rm -rf ./out.log && rm -rf ./err.log && npm run build && pm2 start 'vite preview --port 4173' --name ballrush-web --namespace ballrush-web --log ./out.log",
+    "prod": "rm -f out.log err.log && npm run build && pm2 start 'vite preview --port 4173' --name ballrush-web --namespace ballrush-web --log out.log --error err.log"
   },
   "dependencies": {
     "react": "^19.0.0",
