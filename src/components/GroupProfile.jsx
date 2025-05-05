@@ -110,10 +110,10 @@ const GroupProfile = () => {
 
         return (
             <div className="season-info-line">
-                <PiCalendarBold className="info-icon" /> {start}–{end} •
-                <PiTargetBold className="info-icon" /> {seasonInfo.eventsCount} events •
-                <PiSoccerBallBold className="info-icon" /> {seasonInfo.matchesCount} matches •
-                <PiUsersBold className="info-icon" /> {seasonInfo.playersCount} players •
+                <PiCalendarBold className="info-icon" /> {start}–{end} 
+                <PiTargetBold className="info-icon" /> {seasonInfo.eventsCount} events 
+                <PiSoccerBallBold className="info-icon" /> {seasonInfo.matchesCount} matches 
+                <PiUsersBold className="info-icon" /> {seasonInfo.playersCount} players 
                 <PiCircleBold className="info-icon" style={{ color: statusColor }} /> {statusText}
             </div>
         );
