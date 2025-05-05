@@ -122,10 +122,10 @@ const GroupProfile = () => {
                     <PiSoccerBallBold className="season-info-icon" />
                     {seasonInfo.matchesCount} matches
                 </span>
-                <span className="season-info-item">
+                {/* <span className="season-info-item">
                     <PiUsersBold className="season-info-icon" />
                     {seasonInfo.playersCount} players
-                </span>
+                </span> */}
                 <span className="season-info-item">
                     <PiCircleBold className="season-info-icon" />
                     {statusText}
