@@ -176,14 +176,14 @@ const GroupProfile = () => {
                     className={`gp-season-btn ${selectedSeason === 'All Seasons' ? 'active' : ''}`}
                     onClick={() => setSelectedSeason('All Seasons')}
                 >
-                    Все сезоны
+                    All seasons
                 </button>
                 <button
                     key="last100"
                     className={`gp-season-btn ${selectedSeason === 'Last 100 Games' ? 'active' : ''}`}
                     onClick={() => setSelectedSeason('Last 100 Games')}
                 >
-                    Последние 100 игр
+                    100 games
                 </button>
                 {seasons.map(s => (
                     <button
