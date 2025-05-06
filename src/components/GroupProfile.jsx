@@ -87,9 +87,14 @@ const GroupProfile = () => {
     const sortedParticipants = [...current.participants]
         .map(p => {
             const games = p.wins + p.losses + p.draws;
-            const rawScore = p.wins * 3 + p.draws;
-            const score = games > 0 ? rawScore / games : 0;
-            return { ...p, games, score: Number(score.toFixed(2)) };
+            const baseScore = games > 0 ? (p.wins * 3 + p.draws) / games : 0;
+
+            // Балансировка через логарифм или корень
+            const activityWeight = Math.log2(games + 1); // или Math.sqrt(games)
+
+            const finalScore = Number((baseScore * activityWeight).toFixed(2));
+
+            return { ...p, games, score: finalScore };
         })
         .sort((a, b) => b.score - a.score);
 
