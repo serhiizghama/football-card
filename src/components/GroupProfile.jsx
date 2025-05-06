@@ -70,7 +70,7 @@ const GroupProfile = () => {
 
     // Загружаем информацию о сезоне
     useEffect(() => {
-        if (!selectedSeason) return;
+        if (!selectedSeason || selectedSeason === 'All Seasons') return;
 
         fetch(`https://api.ballrush.online/season-info/${groupId}/${selectedSeason}`)
             .then(res => res.json())
@@ -82,60 +82,61 @@ const GroupProfile = () => {
     if (error) return <div className="gp-error">Ошибка: {error}</div>;
     if (!seasons.length) return <div className="gp-no-data">Нет данных по сезонам</div>;
 
-    const current = seasons.find(s => s.seasonName === selectedSeason);
+    // Формируем участников в зависимости от выбора сезона
+    const participants = React.useMemo(() => {
+        if (selectedSeason === 'All Seasons') {
+            // Объединяем данные всех сезонов
+            const map = {};
+            seasons.forEach(s => {
+                s.participants.forEach(p => {
+                    if (!map[p.userId]) {
+                        map[p.userId] = { ...p };
+                    } else {
+                        const existing = map[p.userId];
+                        existing.wins += p.wins;
+                        existing.losses += p.losses;
+                        existing.draws += p.draws;
+                        existing.achievements = [...existing.achievements, ...p.achievements];
+                    }
+                });
+            });
+            return Object.values(map);
+        }
+        const current = seasons.find(s => s.seasonName === selectedSeason);
+        return current ? [...current.participants] : [];
+    }, [selectedSeason, seasons]);
 
-    const sortedParticipants = [...current.participants]
-        .map(p => {
+    // Рассчитываем итоговый рейтинг
+    const sortedParticipants = React.useMemo(() => {
+        return participants.map(p => {
             const games = p.wins + p.losses + p.draws;
             const baseScore = games > 0 ? (p.wins * 3 + p.draws) / games : 0;
-
-            // Балансировка через логарифм или корень
-            // const activityWeight = Math.sqrt(games);
             const activityWeight = Math.log2(games + 1);
-
             const finalScore = Number((baseScore * activityWeight).toFixed(2));
-
             return { ...p, games, score: finalScore };
-        })
-        .sort((a, b) => b.score - a.score);
+        }).sort((a, b) => b.score - a.score);
+    }, [participants]);
 
-    // 🧾 Формируем строку информации о сезоне
-    const seasonInfoText = seasonInfo ? (() => {
+    // Строка информации о сезоне (скрыта для All Seasons)
+    const seasonInfoText = (seasonInfo && selectedSeason !== 'All Seasons') ? (() => {
         const start = new Date(seasonInfo.startDate).toLocaleDateString('ru-RU');
         const end = new Date(seasonInfo.endDate).toLocaleDateString('ru-RU');
-
-        let statusColor = 'var(--accent)';
         let statusText = 'Upcoming';
-
-        if (seasonInfo.status === 'in_progress') {
-            statusColor = 'var(--accent)';
-            statusText = 'In progress';
-        } else if (seasonInfo.status === 'ended') {
-            statusColor = '#f44336';
-            statusText = 'Finished';
-        }
-
+        if (seasonInfo.status === 'in_progress') statusText = 'In progress';
+        else if (seasonInfo.status === 'ended') statusText = 'Finished';
         return (
             <div className="season-info-line">
                 <span className="season-info-item">
-                    <PiCalendarBold className="season-info-icon" />
-                    {start}–{end}
+                    <PiCalendarBold className="season-info-icon" /> {start}–{end}
                 </span>
                 <span className="season-info-item">
-                    <PiTargetBold className="season-info-icon" />
-                    {seasonInfo.eventsCount} events
+                    <PiTargetBold className="season-info-icon" /> {seasonInfo.eventsCount} events
                 </span>
                 <span className="season-info-item">
-                    <PiSoccerBallBold className="season-info-icon" />
-                    {seasonInfo.matchesCount} matches
+                    <PiSoccerBallBold className="season-info-icon" /> {seasonInfo.matchesCount} matches
                 </span>
-                {/* <span className="season-info-item">
-                    <PiUsersBold className="season-info-icon" />
-                    {seasonInfo.playersCount} players
-                </span> */}
                 <span className="season-info-item">
-                    <PiCircleBold className="season-info-icon" />
-                    {statusText}
+                    <PiCircleBold className="season-info-icon" /> {statusText}
                 </span>
             </div>
         );
@@ -146,6 +147,13 @@ const GroupProfile = () => {
             <h1 className="gp-title">{groupName}</h1>
 
             <div className="gp-seasons">
+                <button
+                    key="all"
+                    className={`gp-season-btn ${selectedSeason === 'All Seasons' ? 'active' : ''}`}
+                    onClick={() => setSelectedSeason('All Seasons')}
+                >
+                    Все сезоны
+                </button>
                 {seasons.map(s => (
                     <button
                         key={s.seasonName}
@@ -157,9 +165,7 @@ const GroupProfile = () => {
                 ))}
             </div>
 
-            {seasonInfoText && (
-                <div className="season-info-line">{seasonInfoText}</div>
-            )}
+            {seasonInfoText}
 
             <div className="gp-table-wrap">
                 <table className="gp-table">
