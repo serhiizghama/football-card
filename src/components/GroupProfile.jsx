@@ -90,7 +90,8 @@ const GroupProfile = () => {
             const baseScore = games > 0 ? (p.wins * 3 + p.draws) / games : 0;
 
             // Балансировка через логарифм или корень
-            const activityWeight = Math.log2(games + 1); // или Math.sqrt(games)
+            const activityWeight = Math.sqrt(games);
+            // const activityWeight = Math.log2(games + 1);
 
             const finalScore = Number((baseScore * activityWeight).toFixed(2));
 
