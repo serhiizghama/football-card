@@ -89,14 +89,11 @@ const GroupProfile = () => {
             const games = p.wins + p.losses + p.draws;
             const baseScore = games > 0 ? (p.wins * 3 + p.draws) / games : 0;
 
-            // Балансировка активности
-            const activityWeight = Math.log2(games + 1); // или Math.sqrt(games)
+            // Балансировка через логарифм или корень
+            // const activityWeight = Math.sqrt(games);
+            const activityWeight = Math.log2(games + 1);
 
-            // Учет Skill: можно усреднить или умножить на baseScore
-            const skillWeight = p.skill ?? 0; // на случай, если skill может быть undefined
-
-            // Финальная формула: комбинация эффективности и скилла
-            const finalScore = Number(((baseScore * 0.6 + skillWeight * 0.4) * activityWeight).toFixed(2));
+            const finalScore = Number((baseScore * activityWeight).toFixed(2));
 
             return { ...p, games, score: finalScore };
         })
