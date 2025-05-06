@@ -82,7 +82,7 @@ const GroupProfile = () => {
     useEffect(() => {
         if (selectedSeason !== 'Last 100 Games') return;
         setLoading(true);
-        fetch(`http://localhost:3003/group/${groupId}/players/last-games-summary`)
+        fetch(`https://api.ballrush.online/group/${groupId}/players/last-games-summary`)
             .then(res => res.json())
             .then(data => {
                 setLastGamesSummary(data);
