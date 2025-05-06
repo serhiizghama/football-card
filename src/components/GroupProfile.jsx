@@ -87,8 +87,9 @@ const GroupProfile = () => {
     const sortedParticipants = [...current.participants]
         .map(p => {
             const games = p.wins + p.losses + p.draws;
-            const score = p.wins * 3 + p.draws * 1 + p.losses * -1;
-            return { ...p, games, score };
+            const rawScore = p.wins * 3 + p.draws;
+            const score = games > 0 ? rawScore / games : 0;
+            return { ...p, games, score: Number(score.toFixed(2)) };
         })
         .sort((a, b) => b.score - a.score);
 
