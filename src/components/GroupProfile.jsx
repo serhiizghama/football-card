@@ -119,6 +119,7 @@ const GroupProfile = () => {
             // Map summary items into same shape (no achievements array)
             return lastGamesSummary.map(p => ({
                 userId: p.userId,
+                name: p.name,
                 wins: p.wins,
                 losses: p.losses,
                 draws: p.draws,
