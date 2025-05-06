@@ -40,43 +40,10 @@ const GroupProfile = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Собираем список участников в зависимости от выбранного сезона или всех сезонов
-    const participants = useMemo(() => {
-        if (selectedSeason === 'All Seasons') {
-            const map = {};
-            seasons.forEach(s => {
-                s.participants.forEach(p => {
-                    if (!map[p.userId]) {
-                        map[p.userId] = { ...p };
-                    } else {
-                        const existing = map[p.userId];
-                        existing.wins += p.wins;
-                        existing.losses += p.losses;
-                        existing.draws += p.draws;
-                        existing.achievements = [...existing.achievements, ...p.achievements];
-                    }
-                });
-            });
-            return Object.values(map);
-        }
-        const current = seasons.find(s => s.seasonName === selectedSeason);
-        return current ? [...current.participants] : [];
-    }, [selectedSeason, seasons]);
+    // State for last-100-games summary
+    const [lastGamesSummary, setLastGamesSummary] = useState([]);
 
-    // Рассчитываем и сортируем рейтинг
-    const sortedParticipants = useMemo(() => {
-        return participants
-            .map(p => {
-                const games = p.wins + p.losses + p.draws;
-                const baseScore = games > 0 ? (p.wins * 3 + p.draws) / games : 0;
-                const activityWeight = Math.log2(games + 1);
-                const finalScore = Number((baseScore * activityWeight).toFixed(2));
-                return { ...p, games, score: finalScore };
-            })
-            .sort((a, b) => b.score - a.score);
-    }, [participants]);
-
-    // Загрузки данных
+    // Fetch groups & seasons
     useEffect(() => {
         fetch('https://api.ballrush.online/groups')
             .then(res => res.json())
@@ -84,9 +51,7 @@ const GroupProfile = () => {
                 const g = list.find(item => item.groupId === groupId);
                 setGroupName(g ? g.groupName : `Group ${groupId}`);
             })
-            .catch(() => {
-                setGroupName(`Group ${groupId}`);
-            });
+            .catch(() => setGroupName(`Group ${groupId}`));
 
         fetch(`https://api.ballrush.online/group/${groupId}`)
             .then(res => res.json())
@@ -104,24 +69,89 @@ const GroupProfile = () => {
             });
     }, [groupId]);
 
+    // Fetch season-info for one season
     useEffect(() => {
-        if (!selectedSeason || selectedSeason === 'All Seasons') return;
-
+        if (!selectedSeason || selectedSeason === 'All Seasons' || selectedSeason === 'Last 100 Games') return;
         fetch(`https://api.ballrush.online/season-info/${groupId}/${selectedSeason}`)
             .then(res => res.json())
             .then(setSeasonInfo)
             .catch(() => setSeasonInfo(null));
     }, [groupId, selectedSeason]);
 
+    // Fetch last 100 games summary when that view is selected
+    useEffect(() => {
+        if (selectedSeason !== 'Last 100 Games') return;
+        setLoading(true);
+        fetch(`http://localhost:3003/group/${groupId}/players/last-games-summary`)
+            .then(res => res.json())
+            .then(data => {
+                setLastGamesSummary(data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, [groupId, selectedSeason]);
+
+    // Build participants list based on selected view
+    const participants = useMemo(() => {
+        if (selectedSeason === 'All Seasons') {
+            const map = {};
+            seasons.forEach(s => {
+                s.participants.forEach(p => {
+                    if (!map[p.userId]) {
+                        map[p.userId] = { ...p };
+                    } else {
+                        const existing = map[p.userId];
+                        existing.wins += p.wins;
+                        existing.losses += p.losses;
+                        existing.draws += p.draws;
+                        // merge achievements arrays
+                        existing.achievements = [...existing.achievements, ...p.achievements];
+                    }
+                });
+            });
+            return Object.values(map);
+        }
+
+        if (selectedSeason === 'Last 100 Games') {
+            // Map summary items into same shape (no achievements array)
+            return lastGamesSummary.map(p => ({
+                userId: p.userId,
+                wins: p.wins,
+                losses: p.losses,
+                draws: p.draws,
+                achievementsCount: p.achievementsCount,
+            }));
+        }
+
+        const current = seasons.find(s => s.seasonName === selectedSeason);
+        return current ? [...current.participants] : [];
+    }, [selectedSeason, seasons, lastGamesSummary]);
+
+    // Calculate sorted rating
+    const sortedParticipants = useMemo(() => {
+        return participants
+            .map(p => {
+                const games = p.wins + p.losses + p.draws;
+                const baseScore = games > 0 ? (p.wins * 3 + p.draws) / games : 0;
+                const activityWeight = Math.log2(games + 1);
+                const score = Number((baseScore * activityWeight).toFixed(2));
+                return { ...p, games, score };
+            })
+            .sort((a, b) => b.score - a.score);
+    }, [participants]);
+
     if (loading) return <div className="gp-loading">Загрузка группы…</div>;
     if (error) return <div className="gp-error">Ошибка: {error}</div>;
-    if (!seasons.length) return <div className="gp-no-data">Нет данных по сезонам</div>;
+    if (!seasons.length && selectedSeason !== 'Last 100 Games') return <div className="gp-no-data">Нет данных по сезонам</div>;
 
-    // Информация о сезоне (только для одного сезона)
-    const seasonInfoText = (seasonInfo && selectedSeason !== 'All Seasons') ? (
+    const seasonInfoText = (seasonInfo && selectedSeason !== 'All Seasons' && selectedSeason !== 'Last 100 Games') && (
         <div className="season-info-line">
             <span className="season-info-item">
-                <PiCalendarBold className="season-info-icon" /> {new Date(seasonInfo.startDate).toLocaleDateString('ru-RU')}–{new Date(seasonInfo.endDate).toLocaleDateString('ru-RU')}
+                <PiCalendarBold className="season-info-icon" />{
+                    new Date(seasonInfo.startDate).toLocaleDateString('ru-RU')}–{new Date(seasonInfo.endDate).toLocaleDateString('ru-RU')}
             </span>
             <span className="season-info-item">
                 <PiTargetBold className="season-info-icon" /> {seasonInfo.eventsCount} events
@@ -133,7 +163,7 @@ const GroupProfile = () => {
                 <PiCircleBold className="season-info-icon" /> {seasonInfo.status === 'in_progress' ? 'In progress' : seasonInfo.status === 'ended' ? 'Finished' : 'Upcoming'}
             </span>
         </div>
-    ) : null;
+    );
 
     return (
         <div className="gp-container">
@@ -146,6 +176,13 @@ const GroupProfile = () => {
                     onClick={() => setSelectedSeason('All Seasons')}
                 >
                     Все сезоны
+                </button>
+                <button
+                    key="last100"
+                    className={`gp-season-btn ${selectedSeason === 'Last 100 Games' ? 'active' : ''}`}
+                    onClick={() => setSelectedSeason('Last 100 Games')}
+                >
+                    Последние 100 игр
                 </button>
                 {seasons.map(s => (
                     <button
@@ -181,15 +218,15 @@ const GroupProfile = () => {
                                 <td className="gp-index">{getRankEmoji(idx)} {idx + 1}</td>
                                 <td className="gp-player">
                                     <Link to={`/user/${p.userId}/group/${groupId}`} className="user-link">
-                                        {p.name}
+                                        {p.name || p.userId}
                                     </Link>
                                 </td>
                                 <td>{p.games}</td>
                                 <td>{p.wins}</td>
                                 <td>{p.losses}</td>
                                 <td>{p.draws}</td>
-                                <td>{p.skill.toFixed(1)}</td>
-                                <td>{p.achievements.length}</td>
+                                <td>{p.skill ? p.skill.toFixed(1) : '-'}</td>
+                                <td>{p.achievementsCount ?? p.achievements.length}</td>
                                 <td className="gp-score">{p.score}</td>
                             </tr>
                         ))}
