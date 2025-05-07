@@ -130,14 +130,22 @@ const GroupProfile = () => {
     // 4) Считаем score и сортируем
     const sortedParticipants = useMemo(() => {
         return participants
-            .map((p) => {
+            .map(p => {
                 const games = p.wins + p.losses + p.draws;
                 const baseScore = games > 0 ? (p.wins * 3 + p.draws) / games : 0;
                 const activityWeight = Math.log2(games + 1);
+                const score = Number((baseScore * activityWeight).toFixed(2));
+
+                // посчитаем общее число ачивок
+                const achievementsTotal = typeof p.achievementsCount === 'number'
+                    ? p.achievementsCount
+                    : (p.achievements || []).reduce((sum, a) => sum + (a.count || 0), 0);
+
                 return {
                     ...p,
                     games,
-                    score: Number((baseScore * activityWeight).toFixed(2)),
+                    score,
+                    achievementsTotal,
                 };
             })
             .sort((a, b) => b.score - a.score);
@@ -246,7 +254,7 @@ const GroupProfile = () => {
                                 <td>{p.losses}</td>
                                 <td>{p.draws}</td>
                                 <td>{p.skill ? p.skill.toFixed(1) : '-'}</td>
-                                <td>{p.achievementsCount ?? p.achievements.length}</td>
+                                <td>{p.achievementsTotal}</td>
                                 <td className="gp-score">{p.score}</td>
                             </tr>
                         ))}
