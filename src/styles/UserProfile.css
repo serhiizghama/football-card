@@ -90,27 +90,25 @@ body {
 /* Новая сетка статистики */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    /* уменьшаем минимальную ширину карточки */
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.5rem;
+    /* поменьше расстояние */
 }
 
 /* Одна карточка статистики */
 .stat-item {
     background: #2c2c2c;
-    border-radius: 8px;
-    padding: 1rem;
+    border-radius: 6px;
+    padding: 0.5rem;
+    /* уменьшили padding */
     text-align: center;
     transition: background 0.2s, transform 0.2s;
-    position: relative;
-    cursor: default;
 }
 
 .stat-item:hover {
     background: #353535;
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
 /* Левый акцент */
@@ -128,17 +126,20 @@ body {
 
 .stat-label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
+    /* уменьшили размер */
     color: #aaa;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+    /* поменьше отступ */
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
+/* Значение */
 .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    /* чуть поменьше */
     font-weight: bold;
-    color: #6cf;
+    color: #5355c5;
 }
 
 /* --- Стили для блока "Достижения" --- */
