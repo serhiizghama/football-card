@@ -38,7 +38,7 @@ const GroupProfile = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Один fetch для всего профиля
+    // 1) При маунте: fetch /group/:groupId/profile
     useEffect(() => {
         setLoading(true);
         fetch(`https://api.ballrush.online/group/${groupId}/profile`)
@@ -47,24 +47,16 @@ const GroupProfile = () => {
                 return res.json();
             })
             .then((profile) => {
-                // Сезоны
                 const sorted = sortSeasons(profile.seasons);
                 setSeasons(sorted);
-
-                // Название группы берём из первого сезона
                 setGroupName(sorted[0]?.groupName || `Group ${groupId}`);
-
-                // Инфа по текущему сезону
-                setSeasonInfo(profile.seasonInfo);
-
-                // Суммарка за последние 100 игр
                 setLastGamesSummary(profile.lastGamesSummary);
 
-                // Выбираем изначально текущий сезон из seasonInfo или последний из списка
-                if (profile.seasonInfo?.seasonName) {
-                    setSelectedSeason(profile.seasonInfo.seasonName);
-                } else if (sorted.length) {
+                // Изначально — последний сезон
+                if (sorted.length) {
                     setSelectedSeason(sorted[sorted.length - 1].seasonName);
+                } else {
+                    setSelectedSeason('All Seasons');
                 }
 
                 setLoading(false);
@@ -75,12 +67,36 @@ const GroupProfile = () => {
             });
     }, [groupId]);
 
-    // Строим список участников в зависимости от вкладки
+    // 2) При переключении selectedSeason — fetch /season-info/:groupId/:selectedSeason
+    useEffect(() => {
+        // игнорим «All Seasons» и «Last 100 Games»
+        if (
+            !selectedSeason ||
+            selectedSeason === 'All Seasons' ||
+            selectedSeason === 'Last 100 Games'
+        ) {
+            setSeasonInfo(null);
+            return;
+        }
+
+        fetch(
+            `https://api.ballrush.online/season-info/${groupId}/${encodeURIComponent(
+                selectedSeason
+            )}`
+        )
+            .then((res) => {
+                if (!res.ok) throw new Error(res.statusText);
+                return res.json();
+            })
+            .then((info) => setSeasonInfo(info))
+            .catch(() => setSeasonInfo(null));
+    }, [groupId, selectedSeason]);
+
+    // 3) Собираем список участников под текущую вкладку
     const participants = useMemo(() => {
-        // «Все сезоны»
         if (selectedSeason === 'All Seasons') {
             const map = {};
-            seasons.forEach((s) => {
+            seasons.forEach((s) =>
                 s.participants.forEach((p) => {
                     if (!map[p.userId]) {
                         map[p.userId] = { ...p };
@@ -91,12 +107,11 @@ const GroupProfile = () => {
                         ex.draws += p.draws;
                         ex.achievements = [...ex.achievements, ...p.achievements];
                     }
-                });
-            });
+                })
+            );
             return Object.values(map);
         }
 
-        // «100 игр»
         if (selectedSeason === 'Last 100 Games') {
             return lastGamesSummary.map((p) => ({
                 userId: p.userId,
@@ -108,12 +123,11 @@ const GroupProfile = () => {
             }));
         }
 
-        // Один конкретный сезон
         const curr = seasons.find((s) => s.seasonName === selectedSeason);
         return curr ? [...curr.participants] : [];
     }, [selectedSeason, seasons, lastGamesSummary]);
 
-    // Считаем score и сортируем
+    // 4) Считаем score и сортируем
     const sortedParticipants = useMemo(() => {
         return participants
             .map((p) => {
@@ -134,12 +148,10 @@ const GroupProfile = () => {
     if (!seasons.length && selectedSeason !== 'Last 100 Games')
         return <div className="gp-no-data">Нет данных по сезонам</div>;
 
-    // Показываем timeline только если выбран именно текущий сезон
     const showInfo =
         seasonInfo &&
         selectedSeason !== 'All Seasons' &&
-        selectedSeason !== 'Last 100 Games' &&
-        selectedSeason === seasonInfo.seasonName;
+        selectedSeason !== 'Last 100 Games';
 
     return (
         <div className="gp-container">
