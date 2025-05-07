@@ -11,6 +11,7 @@ import {
     FaBrain
 } from 'react-icons/fa';
 import '../styles/UserProfile.css';
+import avatarImg from '../assets/avatar.png';
 
 function groupAchievements(achs) {
     const map = {};
@@ -65,8 +66,7 @@ const UserProfile = () => {
                 <div className="avatar-wrapper">
                     <img
                         className="profile-avatar"
-                        // простой генератор «разных» картинок
-                        src={`https://i.pravatar.cc/150?u=${userId}`}
+                        src={avatarImg}
                         alt="User Avatar"
                     />
                 </div>
