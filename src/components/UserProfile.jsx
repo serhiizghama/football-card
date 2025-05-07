@@ -19,7 +19,7 @@ function groupAchievements(achs) {
         if (!map[key]) {
             map[key] = { ...a, count: 0 };
         }
-        map[key].count += a.count ?? 1;
+        map[key].count++;
     });
     return Object.values(map);
 }
@@ -40,9 +40,13 @@ const UserProfile = () => {
             })
             .then(data => {
                 setUser(data);
-                if (data.seasons.length) setSelectedSeason(data.seasons[0]);
+                if (data.seasons.length) {
+                    setSelectedSeason(data.seasons[0]);
+                }
             })
-            .catch(err => console.error('Ошибка:', err));
+            .catch(err => {
+                console.error('Ошибка:', err);
+            });
     }, [userId, groupId]);
 
     if (!user) return <div className="loading">Загрузка профиля…</div>;
@@ -57,119 +61,122 @@ const UserProfile = () => {
 
     return (
         <div className="profile-container">
-            {/* Градиентная шапка */}
-            <header className="profile-header gradient-header">
-                <div className="avatar-wrapper">
-                    <img
-                        src={user.avatarUrl || '/default-avatar.png'}
-                        alt={user.username}
-                        className="avatar"
-                    />
-                </div>
-                <h1 className="username">{user.username}</h1>
-                <p className="group-info">
+            <header className="profile-header">
+                <h1>{user.username}</h1>
+                <p>
                     Группа:{' '}
-                    <Link to={`/group/${groupId}`} className="group-link underline">
+                    <Link to={`/group/${groupId}`} className="group-link">
                         {user.groupName}
                     </Link>
                 </p>
             </header>
 
-            {/* Селектор сезона */}
             <div className="season-selector">
-                {user.seasons.map(s => (
-                    <button
-                        key={s.season}
-                        className={`season-btn ${s.season === selectedSeason.season ? 'active' : ''}`}
-                        onClick={() => setSelectedSeason(s)}
-                    >
-                        {s.season}
-                    </button>
-                ))}
+                <select
+                    value={selectedSeason.season}
+                    onChange={e => {
+                        const s = user.seasons.find(x => x.season === e.target.value);
+                        if (s) setSelectedSeason(s);
+                    }}
+                >
+                    {user.seasons.map(s => (
+                        <option key={s.season} value={s.season}>
+                            {s.season}
+                        </option>
+                    ))}
+                </select>
             </div>
 
-            {/* Статистика сезона */}
-            <section className="season-stats">
-                <h2 className="stats-title">Статистика сезона: {selectedSeason.season}</h2>
-                <div className="stats-grid">
-                    <div className="stat-card">
-                        <FaFutbol className="stat-icon" />
-                        <div className="stat-label">Игры</div>
-                        <div className="stat-value">{selectedSeason.games}</div>
-                    </div>
-                    <div className="stat-card">
-                        <FaTrophy className="stat-icon" />
-                        <div className="stat-label">Победы</div>
-                        <div className="stat-value">{selectedSeason.wins}</div>
-                    </div>
-                    <div className="stat-card">
-                        <FaTimesCircle className="stat-icon" />
-                        <div className="stat-label">Поражения</div>
-                        <div className="stat-value">{selectedSeason.losses}</div>
-                    </div>
-                    <div className="stat-card">
-                        <FaHandshake className="stat-icon" />
-                        <div className="stat-label">Ничьи</div>
-                        <div className="stat-value">{selectedSeason.draws}</div>
-                    </div>
-                    <div className="stat-card">
-                        <FaStar className="stat-icon" />
-                        <div className="stat-label">Очки</div>
-                        <div className="stat-value">{selectedSeason.points}</div>
-                    </div>
-                    <div className="stat-card">
-                        <FaTachometerAlt className="stat-icon" />
-                        <div className="stat-label">EFF</div>
-                        <div className="stat-value">{selectedSeason.efficiency}</div>
-                    </div>
-                    <div className="stat-card">
-                        <FaBrain className="stat-icon" />
-                        <div className="stat-label">Skill</div>
-                        <div className="stat-value">{selectedSeason.skill}</div>
-                    </div>
-                </div>
-            </section>
+            <div className="season-stats">
+                <h2>Статистика сезона: {selectedSeason.season}</h2>
+                <ul className="season-stats-list">
+                    <li className="stat-button">
+                        <FaFutbol className="stat-icon-large" />
+                        <div className="stat-content">
+                            <span className="stat-label">Игры</span>
+                            <span className="stat-value">{selectedSeason.games}</span>
+                        </div>
+                    </li>
+                    <li className="stat-button">
+                        <FaTrophy className="stat-icon-large" />
+                        <div className="stat-content">
+                            <span className="stat-label">Победы</span>
+                            <span className="stat-value">{selectedSeason.wins}</span>
+                        </div>
+                    </li>
+                    <li className="stat-button">
+                        <FaTimesCircle className="stat-icon-large" />
+                        <div className="stat-content">
+                            <span className="stat-label">Поражения</span>
+                            <span className="stat-value">{selectedSeason.losses}</span>
+                        </div>
+                    </li>
+                    <li className="stat-button">
+                        <FaHandshake className="stat-icon-large" />
+                        <div className="stat-content">
+                            <span className="stat-label">Ничьи</span>
+                            <span className="stat-value">{selectedSeason.draws}</span>
+                        </div>
+                    </li>
+                    <li className="stat-button">
+                        <FaStar className="stat-icon-large" />
+                        <div className="stat-content">
+                            <span className="stat-label">Очки</span>
+                            <span className="stat-value">{selectedSeason.points}</span>
+                        </div>
+                    </li>
+                    <li className="stat-button">
+                        <FaTachometerAlt className="stat-icon-large" />
+                        <div className="stat-content">
+                            <span className="stat-label">EFF</span>
+                            <span className="stat-value">{selectedSeason.efficiency}</span>
+                        </div>
+                    </li>
+                    <li className="stat-button">
+                        <FaBrain className="stat-icon-large" />
+                        <div className="stat-content">
+                            <span className="stat-label">Skill</span>
+                            <span className="stat-value">{selectedSeason.skill}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
 
-            {/* Достижения */}
-            <section className="achievements">
+            <div className="achievements">
                 <h2>Достижения</h2>
 
                 {personal.length > 0 && (
-                    <div className="ach-section">
+                    <section className="ach-section">
                         <h3>Личные</h3>
-                        <div className="ach-list">
+                        <ul className="ach-list">
                             {personal.map(a => (
-                                <div className="ach-card" key={a.title}>
+                                <li key={a.title}>
                                     <span className="ach-emoji">{a.emoji}</span>
-                                    <div className="ach-info">
-                                        <span className="ach-title">{a.title}</span>
-                                        <span className="ach-count">×{a.count}</span>
-                                    </div>
-                                    <p className="ach-desc">{a.description}</p>
-                                </div>
+                                    <span className="ach-title">{a.title}</span>
+                                    <span className="ach-count">×{a.count}</span>
+                                    <div className="ach-desc">{a.description}</div>
+                                </li>
                             ))}
-                        </div>
-                    </div>
+                        </ul>
+                    </section>
                 )}
 
                 {team.length > 0 && (
-                    <div className="ach-section">
+                    <section className="ach-section">
                         <h3>Командные</h3>
-                        <div className="ach-list">
+                        <ul className="ach-list">
                             {team.map(a => (
-                                <div className="ach-card" key={a.title}>
+                                <li key={a.title}>
                                     <span className="ach-emoji">{a.emoji}</span>
-                                    <div className="ach-info">
-                                        <span className="ach-title">{a.title}</span>
-                                        <span className="ach-count">×{a.count}</span>
-                                    </div>
-                                    <p className="ach-desc">{a.description}</p>
-                                </div>
+                                    <span className="ach-title">{a.title}</span>
+                                    <span className="ach-count">×{a.count}</span>
+                                    <div className="ach-desc">{a.description}</div>
+                                </li>
                             ))}
-                        </div>
-                    </div>
+                        </ul>
+                    </section>
                 )}
-            </section>
+            </div>
         </div>
     );
 };
