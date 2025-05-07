@@ -6,7 +6,6 @@ import {
     PiCalendarBold,
     PiTargetBold,
     PiSoccerBallBold,
-    PiUsersBold,
     PiCircleBold,
 } from 'react-icons/pi';
 
@@ -19,16 +18,14 @@ const GroupProfile = () => {
     };
 
     const seasonOrder = ['Winter', 'Spring', 'Summer', 'Autumn'];
-
-    const sortSeasons = (list) => {
-        return [...list].sort((a, b) => {
+    const sortSeasons = (list) =>
+        [...list].sort((a, b) => {
             const [aName, aYear] = a.seasonName.split(' ');
             const [bName, bYear] = b.seasonName.split(' ');
             const yearDiff = parseInt(aYear) - parseInt(bYear);
             if (yearDiff !== 0) return yearDiff;
             return seasonOrder.indexOf(aName) - seasonOrder.indexOf(bName);
         });
-    };
 
     const { groupId: rawGroupId } = useParams();
     const groupId = +rawGroupId;
@@ -37,87 +34,71 @@ const GroupProfile = () => {
     const [seasons, setSeasons] = useState([]);
     const [selectedSeason, setSelectedSeason] = useState('');
     const [seasonInfo, setSeasonInfo] = useState(null);
+    const [lastGamesSummary, setLastGamesSummary] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // State for last-100-games summary
-    const [lastGamesSummary, setLastGamesSummary] = useState([]);
-
-    // Fetch groups & seasons
+    // Один fetch для всего профиля
     useEffect(() => {
-        fetch('https://api.ballrush.online/groups')
-            .then(res => res.json())
-            .then(list => {
-                const g = list.find(item => item.groupId === groupId);
-                setGroupName(g ? g.groupName : `Group ${groupId}`);
+        setLoading(true);
+        fetch(`https://api.ballrush.online/group/${groupId}/profile`)
+            .then((res) => {
+                if (!res.ok) throw new Error(res.statusText);
+                return res.json();
             })
-            .catch(() => setGroupName(`Group ${groupId}`));
-
-        fetch(`https://api.ballrush.online/group/${groupId}`)
-            .then(res => res.json())
-            .then(data => {
-                const sorted = sortSeasons(data);
+            .then((profile) => {
+                // Сезоны
+                const sorted = sortSeasons(profile.seasons);
                 setSeasons(sorted);
-                if (sorted.length) {
+
+                // Название группы берём из первого сезона
+                setGroupName(sorted[0]?.groupName || `Group ${groupId}`);
+
+                // Инфа по текущему сезону
+                setSeasonInfo(profile.seasonInfo);
+
+                // Суммарка за последние 100 игр
+                setLastGamesSummary(profile.lastGamesSummary);
+
+                // Выбираем изначально текущий сезон из seasonInfo или последний из списка
+                if (profile.seasonInfo?.seasonName) {
+                    setSelectedSeason(profile.seasonInfo.seasonName);
+                } else if (sorted.length) {
                     setSelectedSeason(sorted[sorted.length - 1].seasonName);
                 }
+
                 setLoading(false);
             })
-            .catch(err => {
+            .catch((err) => {
                 setError(err.message);
                 setLoading(false);
             });
     }, [groupId]);
 
-    // Fetch season-info for one season
-    useEffect(() => {
-        if (!selectedSeason || selectedSeason === 'All Seasons' || selectedSeason === 'Last 100 Games') return;
-        fetch(`https://api.ballrush.online/season-info/${groupId}/${selectedSeason}`)
-            .then(res => res.json())
-            .then(setSeasonInfo)
-            .catch(() => setSeasonInfo(null));
-    }, [groupId, selectedSeason]);
-
-    // Fetch last 100 games summary when that view is selected
-    useEffect(() => {
-        if (selectedSeason !== 'Last 100 Games') return;
-        setLoading(true);
-        fetch(`https://api.ballrush.online/group/${groupId}/players/last-games-summary`)
-            .then(res => res.json())
-            .then(data => {
-                setLastGamesSummary(data);
-                setLoading(false);
-            })
-            .catch(err => {
-                setError(err.message);
-                setLoading(false);
-            });
-    }, [groupId, selectedSeason]);
-
-    // Build participants list based on selected view
+    // Строим список участников в зависимости от вкладки
     const participants = useMemo(() => {
+        // «Все сезоны»
         if (selectedSeason === 'All Seasons') {
             const map = {};
-            seasons.forEach(s => {
-                s.participants.forEach(p => {
+            seasons.forEach((s) => {
+                s.participants.forEach((p) => {
                     if (!map[p.userId]) {
                         map[p.userId] = { ...p };
                     } else {
-                        const existing = map[p.userId];
-                        existing.wins += p.wins;
-                        existing.losses += p.losses;
-                        existing.draws += p.draws;
-                        // merge achievements arrays
-                        existing.achievements = [...existing.achievements, ...p.achievements];
+                        const ex = map[p.userId];
+                        ex.wins += p.wins;
+                        ex.losses += p.losses;
+                        ex.draws += p.draws;
+                        ex.achievements = [...ex.achievements, ...p.achievements];
                     }
                 });
             });
             return Object.values(map);
         }
 
+        // «100 игр»
         if (selectedSeason === 'Last 100 Games') {
-            // Map summary items into same shape (no achievements array)
-            return lastGamesSummary.map(p => ({
+            return lastGamesSummary.map((p) => ({
                 userId: p.userId,
                 name: p.name,
                 wins: p.wins,
@@ -127,44 +108,38 @@ const GroupProfile = () => {
             }));
         }
 
-        const current = seasons.find(s => s.seasonName === selectedSeason);
-        return current ? [...current.participants] : [];
+        // Один конкретный сезон
+        const curr = seasons.find((s) => s.seasonName === selectedSeason);
+        return curr ? [...curr.participants] : [];
     }, [selectedSeason, seasons, lastGamesSummary]);
 
-    // Calculate sorted rating
+    // Считаем score и сортируем
     const sortedParticipants = useMemo(() => {
         return participants
-            .map(p => {
+            .map((p) => {
                 const games = p.wins + p.losses + p.draws;
                 const baseScore = games > 0 ? (p.wins * 3 + p.draws) / games : 0;
                 const activityWeight = Math.log2(games + 1);
-                const score = Number((baseScore * activityWeight).toFixed(2));
-                return { ...p, games, score };
+                return {
+                    ...p,
+                    games,
+                    score: Number((baseScore * activityWeight).toFixed(2)),
+                };
             })
             .sort((a, b) => b.score - a.score);
     }, [participants]);
 
-    if (loading) return <div className="gp-loading">Загрузка группы…</div>;
+    if (loading) return <div className="gp-loading">Загрузка…</div>;
     if (error) return <div className="gp-error">Ошибка: {error}</div>;
-    if (!seasons.length && selectedSeason !== 'Last 100 Games') return <div className="gp-no-data">Нет данных по сезонам</div>;
+    if (!seasons.length && selectedSeason !== 'Last 100 Games')
+        return <div className="gp-no-data">Нет данных по сезонам</div>;
 
-    const seasonInfoText = (seasonInfo && selectedSeason !== 'All Seasons' && selectedSeason !== 'Last 100 Games') && (
-        <div className="season-info-line">
-            <span className="season-info-item">
-                <PiCalendarBold className="season-info-icon" />{
-                    new Date(seasonInfo.startDate).toLocaleDateString('ru-RU')}–{new Date(seasonInfo.endDate).toLocaleDateString('ru-RU')}
-            </span>
-            <span className="season-info-item">
-                <PiTargetBold className="season-info-icon" /> {seasonInfo.eventsCount} events
-            </span>
-            <span className="season-info-item">
-                <PiSoccerBallBold className="season-info-icon" /> {seasonInfo.matchesCount} matches
-            </span>
-            <span className="season-info-item">
-                <PiCircleBold className="season-info-icon" /> {seasonInfo.status === 'in_progress' ? 'In progress' : seasonInfo.status === 'ended' ? 'Finished' : 'Upcoming'}
-            </span>
-        </div>
-    );
+    // Показываем timeline только если выбран именно текущий сезон
+    const showInfo =
+        seasonInfo &&
+        selectedSeason !== 'All Seasons' &&
+        selectedSeason !== 'Last 100 Games' &&
+        selectedSeason === seasonInfo.seasonName;
 
     return (
         <div className="gp-container">
@@ -173,22 +148,25 @@ const GroupProfile = () => {
             <div className="gp-seasons">
                 <button
                     key="all"
-                    className={`gp-season-btn ${selectedSeason === 'All Seasons' ? 'active' : ''}`}
+                    className={`gp-season-btn ${selectedSeason === 'All Seasons' ? 'active' : ''
+                        }`}
                     onClick={() => setSelectedSeason('All Seasons')}
                 >
-                    All seasons
+                    All Seasons
                 </button>
                 <button
                     key="last100"
-                    className={`gp-season-btn ${selectedSeason === 'Last 100 Games' ? 'active' : ''}`}
+                    className={`gp-season-btn ${selectedSeason === 'Last 100 Games' ? 'active' : ''
+                        }`}
                     onClick={() => setSelectedSeason('Last 100 Games')}
                 >
-                    100 games
+                    100 Games
                 </button>
-                {seasons.map(s => (
+                {seasons.map((s) => (
                     <button
                         key={s.seasonName}
-                        className={`gp-season-btn ${s.seasonName === selectedSeason ? 'active' : ''}`}
+                        className={`gp-season-btn ${s.seasonName === selectedSeason ? 'active' : ''
+                            }`}
                         onClick={() => setSelectedSeason(s.seasonName)}
                     >
                         {s.seasonName}
@@ -196,7 +174,31 @@ const GroupProfile = () => {
                 ))}
             </div>
 
-            {seasonInfoText}
+            {showInfo && (
+                <div className="season-info-line">
+                    <span className="season-info-item">
+                        <PiCalendarBold className="season-info-icon" />
+                        {new Date(seasonInfo.startDate).toLocaleDateString('ru-RU')}–
+                        {new Date(seasonInfo.endDate).toLocaleDateString('ru-RU')}
+                    </span>
+                    <span className="season-info-item">
+                        <PiTargetBold className="season-info-icon" /> {seasonInfo.eventsCount}{' '}
+                        events
+                    </span>
+                    <span className="season-info-item">
+                        <PiSoccerBallBold className="season-info-icon" />{' '}
+                        {seasonInfo.matchesCount} matches
+                    </span>
+                    <span className="season-info-item">
+                        <PiCircleBold className="season-info-icon" />{' '}
+                        {seasonInfo.status === 'in_progress'
+                            ? 'In progress'
+                            : seasonInfo.status === 'ended'
+                                ? 'Finished'
+                                : 'Upcoming'}
+                    </span>
+                </div>
+            )}
 
             <div className="gp-table-wrap">
                 <table className="gp-table">
@@ -216,9 +218,14 @@ const GroupProfile = () => {
                     <tbody>
                         {sortedParticipants.map((p, idx) => (
                             <tr key={p.userId}>
-                                <td className="gp-index">{getRankEmoji(idx)} {idx + 1}</td>
+                                <td className="gp-index">
+                                    {getRankEmoji(idx)} {idx + 1}
+                                </td>
                                 <td className="gp-player">
-                                    <Link to={`/user/${p.userId}/group/${groupId}`} className="user-link">
+                                    <Link
+                                        to={`/user/${p.userId}/group/${groupId}`}
+                                        className="user-link"
+                                    >
                                         {p.name || p.userId}
                                     </Link>
                                 </td>
