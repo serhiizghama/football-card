@@ -12,6 +12,7 @@ body {
 }
 
 .profile-container {
+    padding-top: 0;
     padding: 1rem;
     max-width: 600px;
     margin: 0 auto;
@@ -267,5 +268,5 @@ em {
             rgba(99, 102, 241, 0.8) 0%,
             rgba(99, 102, 241, 0) 100%);
     padding: 2rem 1rem;
-    border-radius: 8px;
+    border-radius: 0px;
 }
