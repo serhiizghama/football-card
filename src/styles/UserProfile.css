@@ -12,11 +12,11 @@ body {
 }
 
 .profile-container {
-    padding-top: 0;
-    padding: 1rem;
+    padding: 0 1rem 1rem;
     max-width: 600px;
     margin: 0 auto;
 }
+
 
 .profile-header {
     text-align: center;
