@@ -97,58 +97,38 @@ const UserProfile = () => {
 
             <div className="season-stats">
                 <h2>Статистика сезона: {selectedSeason.season}</h2>
-                <ul className="season-stats-list">
-                    <li className="stat-button">
-                        <FaFutbol className="stat-icon-large" />
-                        <div className="stat-content">
-                            <span className="stat-label">Игры</span>
-                            <span className="stat-value">{selectedSeason.games}</span>
-                        </div>
-                    </li>
-                    <li className="stat-button">
-                        <FaTrophy className="stat-icon-large" />
-                        <div className="stat-content">
-                            <span className="stat-label">Победы</span>
-                            <span className="stat-value">{selectedSeason.wins}</span>
-                        </div>
-                    </li>
-                    <li className="stat-button">
-                        <FaTimesCircle className="stat-icon-large" />
-                        <div className="stat-content">
-                            <span className="stat-label">Поражения</span>
-                            <span className="stat-value">{selectedSeason.losses}</span>
-                        </div>
-                    </li>
-                    <li className="stat-button">
-                        <FaHandshake className="stat-icon-large" />
-                        <div className="stat-content">
-                            <span className="stat-label">Ничьи</span>
-                            <span className="stat-value">{selectedSeason.draws}</span>
-                        </div>
-                    </li>
-                    <li className="stat-button">
-                        <FaStar className="stat-icon-large" />
-                        <div className="stat-content">
-                            <span className="stat-label">Очки</span>
-                            <span className="stat-value">{selectedSeason.points}</span>
-                        </div>
-                    </li>
-                    <li className="stat-button">
-                        <FaTachometerAlt className="stat-icon-large" />
-                        <div className="stat-content">
-                            <span className="stat-label">EFF</span>
-                            <span className="stat-value">{selectedSeason.efficiency}</span>
-                        </div>
-                    </li>
-                    <li className="stat-button">
-                        <FaBrain className="stat-icon-large" />
-                        <div className="stat-content">
-                            <span className="stat-label">Skill</span>
-                            <span className="stat-value">{selectedSeason.skill}</span>
-                        </div>
-                    </li>
-                </ul>
+                <div className="stats-grid">
+                    <div className="stat-item">
+                        <span className="stat-label">Игры</span>
+                        <span className="stat-value">{selectedSeason.games}</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-label">Победы</span>
+                        <span className="stat-value">{selectedSeason.wins}</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-label">Поражения</span>
+                        <span className="stat-value">{selectedSeason.losses}</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-label">Ничьи</span>
+                        <span className="stat-value">{selectedSeason.draws}</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-label">Очки</span>
+                        <span className="stat-value">{selectedSeason.points}</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-label">Эффективность</span>
+                        <span className="stat-value">{selectedSeason.efficiency}%</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-label">Skill</span>
+                        <span className="stat-value">{selectedSeason.skill.toFixed(1)}</span>
+                    </div>
+                </div>
             </div>
+
 
             <div className="achievements">
                 <h2>Достижения</h2>
