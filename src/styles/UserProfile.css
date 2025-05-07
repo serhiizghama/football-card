@@ -88,7 +88,7 @@ body {
 
 .stat-icon-large {
     font-size: 1.6rem;
-    color: #6cf;
+    color: #313266;
     margin-bottom: 0.25rem;
 }
 
@@ -132,7 +132,7 @@ body {
 .stat-value {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #6cf;
+    color: #313266;
 }
 
 /* --- Стили для блока "Достижения" --- */
@@ -224,7 +224,7 @@ body {
     justify-self: center;
     align-self: center;
     font-weight: bold;
-    color: #6cf;
+    color: #313266;
 }
 
 /* Описание чуть мельче и тоже в центре */
