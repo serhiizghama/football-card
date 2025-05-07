@@ -61,7 +61,7 @@ const UserProfile = () => {
 
     return (
         <div className="profile-container">
-            <header className="profile-header">
+            <header className="profile-header profile-header--gradient">
                 <h1>{user.username}</h1>
                 <p>
                     Группа:{' '}
