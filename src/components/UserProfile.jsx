@@ -62,6 +62,14 @@ const UserProfile = () => {
     return (
         <div className="profile-container">
             <header className="profile-header profile-header--gradient">
+                <div className="avatar-wrapper">
+                    <img
+                        className="profile-avatar"
+                        // простой генератор «разных» картинок
+                        src={`https://i.pravatar.cc/150?u=${userId}`}
+                        alt="User Avatar"
+                    />
+                </div>
                 <h1>{user.username}</h1>
                 <p>
                     Группа:{' '}
