@@ -255,8 +255,8 @@ em {
 
 /* сама аватарка */
 .profile-avatar {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     border: 3px solid #fff;
     object-fit: cover;
