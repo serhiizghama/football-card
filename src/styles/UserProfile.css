@@ -132,7 +132,7 @@ body {
     justify-self: center;
     align-self: center;
     font-weight: bold;
-    color: #6cf;
+    color: #5355c5;
 }
 
 .no-ach {
@@ -188,7 +188,7 @@ em {
 .stat-value {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--accent, #6cf);
+    color: var(--accent, #5355c5);
 }
 
 /* слегка сузим значение процента, чтобы оно не "вылезало" */
