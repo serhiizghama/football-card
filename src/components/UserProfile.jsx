@@ -44,7 +44,7 @@ const UserProfile = () => {
                     />
                 </div>
                 <h1>{user.username}</h1>
-                <p className="group-info" style={{ whiteSpace: 'nowrap', textAlign: 'center' }}>
+                <p className="group-info">
                     Group:{' '}
                     <Link to={`/group/${groupId}`} className="group-link">
                         {user.groupName}

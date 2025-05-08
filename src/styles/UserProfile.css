@@ -198,17 +198,16 @@ em {
 
 /* UserProfile.css */
 .group-info {
+    display: inline-block;
+    white-space: nowrap;
     margin-top: 0.5rem;
-    text-align: center;
-    font-size: 0.9rem;
     color: #b0b0b0;
-    /* единственный цвет для всего блока */
+    font-size: 0.9rem;
 }
 
 /* Ссылка наследует цвет, но остаётся кликабельной */
 .group-info .group-link {
     color: inherit;
-    /* #b0b0b0 */
     text-decoration: none;
     cursor: pointer;
 }
