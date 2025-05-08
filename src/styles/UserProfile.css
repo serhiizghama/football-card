@@ -198,6 +198,7 @@ em {
 
 /* UserProfile.css */
 .group-info {
+    font-size: 1rem;
     display: inline-block;
     white-space: nowrap;
     margin-top: 0.5rem;
