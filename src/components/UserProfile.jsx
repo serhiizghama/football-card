@@ -1,18 +1,12 @@
 // src/components/UserProfile.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import {
-    FaFutbol,
-    FaTrophy,
-    FaTimesCircle,
-    FaHandshake,
-    FaStar,
-    FaTachometerAlt,
-    FaBrain
-} from 'react-icons/fa';
 import '../styles/UserProfile.css';
 import avatarImg from '../assets/avatar.png';
 
+/**
+ * Группирует достижения по title, считая количество повторов
+ */
 function groupAchievements(achs) {
     const map = {};
     achs.forEach(a => {
@@ -31,7 +25,6 @@ const UserProfile = () => {
     const groupId = Number(rawGroupId);
 
     const [user, setUser] = useState(null);
-    const [selectedSeason, setSelectedSeason] = useState(null);
 
     useEffect(() => {
         fetch(`https://api.ballrush.online/user/${userId}/group/${groupId}`)
@@ -39,25 +32,21 @@ const UserProfile = () => {
                 if (!res.ok) throw new Error('Ошибка загрузки данных');
                 return res.json();
             })
-            .then(data => {
-                setUser(data);
-                if (data.seasons.length) {
-                    setSelectedSeason(data.seasons[0]);
-                }
-            })
-            .catch(err => {
-                console.error('Ошибка:', err);
-            });
+            .then(data => setUser(data))
+            .catch(err => console.error('Ошибка:', err));
     }, [userId, groupId]);
 
-    if (!user) return <div className="loading">Загрузка профиля…</div>;
-    if (!selectedSeason) return <div className="loading">У пользователя нет сезонов</div>;
+    if (!user) {
+        return <div className="loading">Загрузка профиля…</div>;
+    }
 
+    // Берём достижения из первого сезона (или пустой массив)
+    const season = user.seasons?.[0] ?? { achievements: [] };
     const personal = groupAchievements(
-        selectedSeason.achievements.filter(a => a.type === 'personal')
+        season.achievements.filter(a => a.type === 'personal')
     );
     const team = groupAchievements(
-        selectedSeason.achievements.filter(a => a.type === 'team')
+        season.achievements.filter(a => a.type === 'team')
     );
 
     return (
@@ -78,57 +67,6 @@ const UserProfile = () => {
                     </Link>
                 </p>
             </header>
-
-            <div className="season-selector">
-                <select
-                    value={selectedSeason.season}
-                    onChange={e => {
-                        const s = user.seasons.find(x => x.season === e.target.value);
-                        if (s) setSelectedSeason(s);
-                    }}
-                >
-                    {user.seasons.map(s => (
-                        <option key={s.season} value={s.season}>
-                            {s.season}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            <div className="season-stats">
-                <h2>Статистика сезона: {selectedSeason.season}</h2>
-                <div className="stats-grid">
-                    <div className="stat-item">
-                        <span className="stat-label">Игры</span>
-                        <span className="stat-value">{selectedSeason.games}</span>
-                    </div>
-                    <div className="stat-item">
-                        <span className="stat-label">Победы</span>
-                        <span className="stat-value">{selectedSeason.wins}</span>
-                    </div>
-                    <div className="stat-item">
-                        <span className="stat-label">Поражения</span>
-                        <span className="stat-value">{selectedSeason.losses}</span>
-                    </div>
-                    <div className="stat-item">
-                        <span className="stat-label">Ничьи</span>
-                        <span className="stat-value">{selectedSeason.draws}</span>
-                    </div>
-                    <div className="stat-item">
-                        <span className="stat-label">Очки</span>
-                        <span className="stat-value">{selectedSeason.points}</span>
-                    </div>
-                    <div className="stat-item">
-                        <span className="stat-label">Эффективность</span>
-                        <span className="stat-value">{selectedSeason.efficiency}%</span>
-                    </div>
-                    <div className="stat-item">
-                        <span className="stat-label">Skill</span>
-                        <span className="stat-value">{selectedSeason.skill.toFixed(1)}</span>
-                    </div>
-                </div>
-            </div>
-
 
             <div className="achievements">
                 <h2>Достижения</h2>
@@ -163,6 +101,10 @@ const UserProfile = () => {
                             ))}
                         </ul>
                     </section>
+                )}
+
+                {personal.length === 0 && team.length === 0 && (
+                    <p className="no-ach">У пользователя нет достижений.</p>
                 )}
             </div>
         </div>
