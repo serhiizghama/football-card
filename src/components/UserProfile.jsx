@@ -30,6 +30,9 @@ const UserProfile = () => {
         ? ((user.wins / user.totalGames) * 100).toFixed(1)
         : '0.0';
 
+    // Sort by achievement count descending
+    const sortedAchievements = [...user.achievements].sort((a, b) => b.count - a.count);
+
     return (
         <div className="profile-container">
             <header className="profile-header profile-header--gradient">
@@ -90,10 +93,10 @@ const UserProfile = () => {
             <div className="achievements">
                 <h2>Achievements</h2>
 
-                {user.achievements.length > 0 ? (
+                {sortedAchievements.length > 0 ? (
                     <section className="ach-section">
                         <ul className="ach-list">
-                            {user.achievements.map(a => (
+                            {sortedAchievements.map(a => (
                                 <li key={a.title}>
                                     <span className="ach-emoji">{a.emoji}</span>
                                     <span className="ach-title">{a.title}</span>
