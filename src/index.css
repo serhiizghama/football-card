@@ -51,15 +51,16 @@ body {
   background-color: #121212 !important;
 }
 
-/* a {
+a {
   font-weight: 500;
-  color: #8ab4f8 !important;
+  color: #5355c5 !important;
   text-decoration: inherit;
   transition: color 0.2s ease;
 }
+
 a:hover {
   color: #aecbfa !important;
-} */
+}
 
 h1 {
   font-size: clamp(2em, 5vw, 3.2em);
