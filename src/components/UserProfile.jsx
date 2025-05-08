@@ -14,16 +14,21 @@ const UserProfile = () => {
     useEffect(() => {
         fetch(`https://api.ballrush.online/user/${userId}/group/${groupId}`)
             .then(res => {
-                if (!res.ok) throw new Error('Ошибка загрузки данных');
+                if (!res.ok) throw new Error('Failed to load data');
                 return res.json();
             })
             .then(data => setUser(data))
-            .catch(err => console.error('Ошибка:', err));
+            .catch(err => console.error('Error:', err));
     }, [userId, groupId]);
 
     if (!user) {
-        return <div className="loading">Загрузка профиля…</div>;
+        return <div className="loading">Loading profile…</div>;
     }
+
+    // Calculate win percentage
+    const winPercentage = user.totalGames > 0
+        ? ((user.wins / user.totalGames) * 100).toFixed(1)
+        : '0.0';
 
     return (
         <div className="profile-container">
@@ -37,7 +42,7 @@ const UserProfile = () => {
                 </div>
                 <h1>{user.username}</h1>
                 <p>
-                    Группа:{' '}
+                    Group:{' '}
                     <Link to={`/group/${groupId}`} className="group-link">
                         {user.groupName}
                     </Link>
@@ -45,41 +50,45 @@ const UserProfile = () => {
             </header>
 
             <div className="season-stats">
-                <h2>Общая статистика</h2>
+                <h2>Overall Statistics</h2>
                 <div className="stats-grid">
                     <div className="stat-item">
-                        <span className="stat-label">Событий</span>
+                        <span className="stat-label">Events</span>
                         <span className="stat-value">{user.eventsPlayed}</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-label">Игр</span>
+                        <span className="stat-label">Games</span>
                         <span className="stat-value">{user.totalGames}</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-label">Побед</span>
+                        <span className="stat-label">Wins</span>
                         <span className="stat-value">{user.wins}</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-label">Поражений</span>
+                        <span className="stat-label">Losses</span>
                         <span className="stat-value">{user.losses}</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-label">Ничьих</span>
+                        <span className="stat-label">Draws</span>
                         <span className="stat-value">{user.draws}</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-label">Голы забито</span>
+                        <span className="stat-label">Goals For</span>
                         <span className="stat-value">{user.goalsFor}</span>
                     </div>
                     <div className="stat-item">
-                        <span className="stat-label">Голы пропущено</span>
+                        <span className="stat-label">Goals Against</span>
                         <span className="stat-value">{user.goalsAgainst}</span>
+                    </div>
+                    <div className="stat-item">
+                        <span className="stat-label">Win %</span>
+                        <span className="stat-value">{winPercentage}%</span>
                     </div>
                 </div>
             </div>
 
             <div className="achievements">
-                <h2>Достижения</h2>
+                <h2>Achievements</h2>
 
                 {user.achievements.length > 0 ? (
                     <section className="ach-section">
@@ -95,7 +104,7 @@ const UserProfile = () => {
                         </ul>
                     </section>
                 ) : (
-                    <p className="no-ach">У пользователя нет достижений.</p>
+                    <p className="no-ach">This user has no achievements.</p>
                 )}
             </div>
         </div>
