@@ -210,7 +210,9 @@ em {
 .group-info .group-link {
     color: #5355c5;
     text-decoration: none;
+    outline: none;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent; 
 }
 
 /* Лёгкая индикация ховера */
