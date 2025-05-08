@@ -147,7 +147,7 @@ em {
 
 /* === Overall Statistics Card Layout === */
 .season-stats {
-    margin: 2rem 0;
+    margin-bottom: 2rem;
 }
 
 .season-stats h2 {
