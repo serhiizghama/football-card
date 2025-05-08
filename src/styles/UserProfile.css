@@ -196,32 +196,24 @@ em {
     font-size: 1.25rem;
 }
 
-/* сам текст “Group:” */
+/* UserProfile.css */
 .group-info {
     margin-top: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary, #aaa);
     text-align: center;
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    /* единственный цвет для всего блока */
 }
 
-/* ссылке даём лёгкий “беджик” без яркого фона */
+/* Ссылка наследует цвет, но остаётся кликабельной */
 .group-info .group-link {
-    display: inline-block;
-    margin-left: 0.25rem;
-    padding: 0.1rem 0.5rem;
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: var(--accent, #6cf);
-    background: rgba(108, 204, 255, 0.1);
-    /* очень лёгкий акцентный фон */
-    border: 1px solid rgba(108, 204, 255, 0.4);
-    /* тонкая полупрозрачная обводка */
-    border-radius: 0.25rem;
+    color: inherit;
+    /* #b0b0b0 */
     text-decoration: none;
-    transition: background 0.2s, border-color 0.2s;
+    cursor: pointer;
 }
 
+/* Лёгкая индикация ховера */
 .group-info .group-link:hover {
-    background: rgba(108, 204, 255, 0.2);
-    border-color: rgba(108, 204, 255, 0.6);
+    text-decoration: underline;
 }
