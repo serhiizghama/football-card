@@ -41,12 +41,10 @@ const UserProfile = () => {
                     />
                 </div>
                 <h1>{user.username}</h1>
-                <p>
-                    Group:{' '}
-                    <Link to={`/group/${groupId}`} className="group-link">
-                        {user.groupName}
-                    </Link>
-                </p>
+                <div className="group-info">
+                    <span className="group-label">Group</span>
+                    <span className="group-badge">{user.groupName}</span>
+                </div>
             </header>
 
             <div className="season-stats">

@@ -195,3 +195,27 @@ em {
 .stat-item:nth-child(8) .stat-value {
     font-size: 1.25rem;
 }
+
+.group-info {
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+.group-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary, #bbb);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.group-badge {
+    display: inline-block;
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--accent, #6cf);
+    color: #fff;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
