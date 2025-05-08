@@ -208,7 +208,7 @@ em {
 
 /* Ссылка наследует цвет, но остаётся кликабельной */
 .group-info .group-link {
-    color: inherit;
+    color: #5355c5;
     text-decoration: none;
     cursor: pointer;
 }
