@@ -53,7 +53,7 @@ body {
 
 a {
   font-weight: 500;
-  color: #5355c5 !important;
+  color: var(--accent) !important;
   text-decoration: inherit;
   transition: color 0.2s ease;
 }

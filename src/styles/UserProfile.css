@@ -132,7 +132,7 @@ body {
     justify-self: center;
     align-self: center;
     font-weight: bold;
-    color: #5355c5;
+    color: var(--accent);
 }
 
 .no-ach {
@@ -188,7 +188,7 @@ em {
 .stat-value {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--accent, #5355c5);
+    color: var(--accent);
 }
 
 /* слегка сузим значение процента, чтобы оно не "вылезало" */
@@ -208,11 +208,11 @@ em {
 
 /* Ссылка наследует цвет, но остаётся кликабельной */
 .group-info .group-link {
-    color: #5355c5;
+    color: var(--accent);
     text-decoration: none;
     outline: none;
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent; 
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Лёгкая индикация ховера */
