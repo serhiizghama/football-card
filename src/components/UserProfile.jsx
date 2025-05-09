@@ -32,7 +32,6 @@ const UserProfile = () => {
 
     // Sort by achievement count descending
     const sortedAchievements = [...user.achievements].sort((a, b) => b.count - a.count);
-
     return (
         <div className="profile-container">
             <header className="profile-header profile-header--gradient">
